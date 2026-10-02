@@ -1,4 +1,4 @@
-<div class="top-bar">
+<div class="top-bar" role="region" aria-label="Información de contacto y redes sociales">
     <div class="top-bar-item">
         <i class="fas fa-phone"></i>
         <span>Telefono : (+593) 4 5015200</span>
@@ -8,27 +8,25 @@
         <span>Email: info@fermagri.ec</span>
     </div>
     <div class="top-bar-item social">
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.facebook.com/pages/Fertilizantes-y-quimicos-Fermagri/762355317115945?locale=es_ES" target="_blank" rel="noopener" aria-label="Facebook de Fermagri"><i class="fab fa-facebook-f"></i></a>
     </div>
     <div class="top-bar-item social">
-        <a href="#"><i class="fab fa-instagram"></i></a>
-    </div>
-    <div class="top-bar-item">
-        <a href="#">Resoluciones</a>
-    </div>
-    <div class="top-bar-item">
-        <a href="#">Catálogos de fertilizantes</a>
-    </div>
-    <div class="top-bar-item">
-        <a href="https://browser.fermagri.com:8100/dispatcher">Sap</a>
+        <a href="https://www.instagram.com/fermagriecuador/?hl=es" target="_blank" rel="noopener" aria-label="Instagram de Fermagri"><i class="fab fa-instagram"></i></a>
     </div>
 </div>
 
 <header class="navbar">
     <div class="navbar-container">
-        <div class="logo">
-            <a href="index.html">
+        <div class="logo desktop-only">
+            <a href="index.html" aria-label="Fermagri — Inicio">
                 <img src="Logofermagriindex.svg.svg" alt="Fermagri">
+            </a>
+        </div>
+
+        <!-- Isotipo solo en móvil -->
+        <div class="logo-isotipo mobile-only">
+            <a href="index.html" aria-label="Fermagri — Inicio">
+                <img src="SVG/Logo solo.svg" alt="Fermagri">
             </a>
         </div>
 
@@ -48,9 +46,9 @@
             </div>
             <a href="index.html">Inicio</a>
             <a href="productos.html">Productos</a>
-            <a href="calculadora.html" style="color: #27ae60; font-weight: bold;">NUTRI-PLAN</a>
-            <a href="distribuidores.html">Distribuidores</a>
-            <a href="videos.html">Videos</a>
+            <!-- <a href="calculadora.html" style="color: #27ae60; font-weight: bold;">Calculador de cultivo</a> -->
+            <!-- <a href="distribuidores.html">Distribuidores</a> -->
+            <!-- <a href="videos.html">Videos</a> -->
             <a href="contacto.html">Contacto</a>
         </nav>
         
@@ -60,4 +58,4 @@
             <span></span>
         </div>
     </div>
-</header>
+</header>

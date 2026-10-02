@@ -3,28 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productos | Fermagri</title>
+    <title>Catálogo de Fertilizantes y Productos | Fermagri</title>
     <meta name="description" content="Catálogo completo de productos Fermagri: Línea Premium, Master Protec, Solufol, Edáficos y Simples. Encuentra la nutrición ideal para tu cultivo.">
     <meta name="keywords" content="catálogo fertilizantes, productos agrícolas, Master Protec, Solufol, Nutricultivo, abonos, Fermagri">
     <meta property="og:title" content="Catálogo de Productos | Fermagri">
     <meta property="og:description" content="Conoce nuestra amplia gama de fertilizantes edáficos, foliares y solubles de alta concentración.">
     <meta property="og:image" content="https://fermagri.com/nosotros.jpg">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://fermagri.com/productos.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Catálogo de Productos | Fermagri">
+    <meta name="twitter:description" content="Conoce nuestra amplia gama de fertilizantes edáficos, foliares y solubles de alta concentración.">
+    <meta name="twitter:image" content="https://fermagri.com/nosotros.jpg">
+    <link rel="canonical" href="https://fermagri.com/productos.html">
+    <link rel="icon" type="image/svg+xml" href="Logofermagriindex.svg.svg">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="chatbot.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Catálogo de Productos Fermagri",
+      "description": "Catálogo de fertilizantes edáficos, foliares y solubles de alta concentración.",
+      "url": "https://fermagri.com/productos.html",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Fermagri",
+        "url": "https://fermagri.com"
+      }
+    }
+    </script>
 </head>
 <body>
     
     <div id="header-placeholder"></div>
 
+    <main>
     <section class="banner-categoria">
         <div class="hero-content">
             <h1 id="titulo-categoria">EDÁFICOS</h1>
             <div class="linea-verde"></div>
             
             <div class="buscador-contenedor">
-            <input type="text" id="input-buscador" placeholder="¿Qué producto busca? (Ej: Solufol, Urea...)">
+            <input type="text" id="input-buscador" placeholder="¿Qué producto busca?">
             <i class="fas fa-search"></i>
              </div>
         </div>
@@ -32,19 +55,25 @@
 
     <div class="filtros-contenedor">
         <button class="btn-filtro active" data-categoria="Edaficos">Edáficos</button>
+        <button class="btn-filtro" data-categoria="Mezclas Físicas">Mezclas Físicas</button>
         <button class="btn-filtro" data-categoria="Solubles">Solubles</button>
-        <button class="btn-filtro" data-categoria="Especializados">Especializados</button>
-        <button class="btn-filtro" data-categoria="Master">Master Protec</button>
+        <button class="btn-filtro" data-categoria="Master Protec">Master Protec</button>
+        <button class="btn-filtro" data-categoria="Especializados">Especialidades</button>
+        <button class="btn-filtro" data-categoria="Todos">Todos</button>
     </div>
 
     <section class="productos-seccion">
+        <h2 class="sr-only">Listado de productos</h2>
         <div id="contenedor-galeria" class="productos-grid">
             </div>
     </section>
+    </main>
 
     <div id="footer-placeholder"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="catalogo-utils.js"></script>
+    <script src="public-data.js"></script>
     <script src="productos.js"></script> 
     
    <script>
@@ -87,38 +116,82 @@
         // 2. LÓGICA DE FILTRADO (Buscador + Botones)
         function filtrar() {
             const texto = inputBuscadorLocal ? inputBuscadorLocal.value.toLowerCase().trim() : "";
-            const btnActivo = document.querySelector('.btn-filtro.active');
-            const categoriaActiva = btnActivo ? btnActivo.dataset.categoria : 'Todos';
+            let btnActivo = document.querySelector('.btn-filtro.active');
+            let categoriaActiva = btnActivo ? btnActivo.dataset.categoria : 'Todos';
 
-            const resultados = listadoProductos.filter(p => {
+            // Auto-seleccionar categoría si el término existe en otra, pero no en la actual
+            if (texto !== "") {
+                const term = window.normalizeText(texto);
+                
+                // Matches en todo el catálogo
+                const globalMatches = listadoProductos.filter(p => {
+                    const nombre = window.normalizeText(p.nombre);
+                    const descripcion = window.normalizeText(Array.isArray(p.descripcion) ? p.descripcion.join(" ") : p.descripcion);
+                    const concentracion = window.normalizeText(p.concentracion);
+                    const categoria = window.normalizeText(p.categoria);
+                    return nombre.includes(term) || descripcion.includes(term) || concentracion.includes(term) || categoria.includes(term);
+                });
+
+                // Matches solo en la categoría actual
+                const matchesInActiveCat = globalMatches.filter(p => {
+                    const catProd = window.normalizeText(p.categoria);
+                    const catActiva = window.normalizeText(categoriaActiva);
+                    return (categoriaActiva === 'Todos' || catProd === catActiva);
+                });
+
+                // Si no hay resultados en la pestaña actual pero sí en otra categoría, cambiamos la pestaña activa
+                if (matchesInActiveCat.length === 0 && globalMatches.length > 0) {
+                    const nuevaOpcion = globalMatches[0].categoria;
+                    const botonCat = Array.from(botonesFiltro).find(b => {
+                        return window.normalizeText(b.dataset.categoria) === window.normalizeText(nuevaOpcion);
+                    });
+
+                    if (botonCat) {
+                        botonesFiltro.forEach(b => b.classList.remove('active'));
+                        botonCat.classList.add('active');
+                        categoriaActiva = botonCat.dataset.categoria;
+                        
+                        const titulo = document.getElementById('titulo-categoria');
+                        if (titulo) {
+                            titulo.textContent = botonCat.textContent.toUpperCase();
+                        }
+                    }
+                }
+            }
+
+            const productosPorCategoria = window.catalogoUtils
+                ? window.catalogoUtils.filterProductsByCategory(listadoProductos, categoriaActiva)
+                : listadoProductos.filter(p => {
+                    const catProd = window.normalizeText(p.categoria);
+                    const catActiva = window.normalizeText(categoriaActiva);
+                    return (categoriaActiva === 'Todos' || catProd === catActiva);
+                });
+
+            const resultados = productosPorCategoria.filter(p => {
                 const term = window.normalizeText(texto);
                 const nombre = window.normalizeText(p.nombre);
                 const categoria = window.normalizeText(p.categoria);
                 const descripcion = window.normalizeText(Array.isArray(p.descripcion) ? p.descripcion.join(" ") : p.descripcion);
                 const concentracion = window.normalizeText(p.concentracion);
                 
-                // Si hay texto en el buscador, buscamos en todo
+                // Si hay texto en el buscador, buscamos en todo (dentro de la categoría activa)
                 if (term !== "") {
                     const coincideTexto = nombre.includes(term) || 
                                          descripcion.includes(term) || 
                                          concentracion.includes(term) ||
                                          categoria.includes(term);
                     
-                    // Si estamos en una categoría específica, también debe coincidir
-                    const catProd = window.normalizeText(p.categoria);
-                    const catActiva = window.normalizeText(categoriaActiva);
-                    const coincideCat = (categoriaActiva === 'Todos' || catProd === catActiva);
-                    
-                    return coincideTexto && coincideCat;
+                    return coincideTexto;
                 }
                 
-                // Si no hay texto, solo filtramos por categoría
-                const catProd = window.normalizeText(p.categoria);
-                const catActiva = window.normalizeText(categoriaActiva);
-                return (categoriaActiva === 'Todos' || catProd === catActiva);
+                return true;
             });
 
-            renderizarProductos(resultados);
+            const resultadosOrdenados = window.catalogoUtils
+                ? window.catalogoUtils.sortProductsForCatalog(resultados, categoriaActiva)
+                : resultados;
+
+            renderizarProductos(resultadosOrdenados);
         }
 
         // --- EVENTOS ---
@@ -190,5 +263,85 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="main.js"></script>
     <script src="chatbot.js"></script>
+
+    <!-- Placeholder animado (escribe consultas de ejemplo) -->
+    <script>
+    (function () {
+        function initTypewriter() {
+            const input = document.getElementById('input-buscador');
+            if (!input || input.dataset.twInit) return;
+            input.dataset.twInit = '1';
+
+            // Consultas de ejemplo: nombres de productos + variaciones de búsqueda
+            let queries = [
+                'Urea', '10-30-10 Premium', 'Solufol', 'Master Protec',
+                'Sulfato de Amonio', 'Muriato de Potasio', 'Nitrofos',
+                'Fertilizante foliar', 'MicroAlgae', 'Abono para banano'
+            ];
+
+            // Si el catálogo ya está cargado, usar también nombres reales
+            try {
+                const lista = window.listadoProductos;
+                if (Array.isArray(lista) && lista.length) {
+                    const reales = lista.map(p => p && p.nombre).filter(Boolean).slice(0, 8);
+                    if (reales.length) {
+                        queries = reales.concat(['Fertilizante foliar', 'Abono para banano', 'Nutrición de cultivo']);
+                    }
+                }
+            } catch (e) { /* lista base */ }
+
+            let qi = 0, ci = 0, deleting = false, timer = null, running = false;
+
+            function tick() {
+                if (!running) return;
+                const word = queries[qi % queries.length];
+                if (!deleting) {
+                    ci++;
+                    input.setAttribute('placeholder', word.slice(0, ci) + ' |');
+                    if (ci >= word.length) {
+                        input.setAttribute('placeholder', word);
+                        deleting = true;
+                        timer = setTimeout(tick, 1600);
+                        return;
+                    }
+                    timer = setTimeout(tick, 80 + Math.round(Math.sin(ci) * 0)); // velocidad constante
+                } else {
+                    ci--;
+                    input.setAttribute('placeholder', word.slice(0, ci) + (ci ? ' |' : ''));
+                    if (ci <= 0) {
+                        deleting = false;
+                        qi++;
+                        timer = setTimeout(tick, 450);
+                        return;
+                    }
+                    timer = setTimeout(tick, 42);
+                }
+            }
+
+            function start() {
+                if (running || input.value) return;
+                running = true; qi = 0; ci = 0; deleting = false;
+                tick();
+            }
+            function stop(restore) {
+                running = false;
+                clearTimeout(timer);
+                input.setAttribute('placeholder', restore ? '¿Qué producto busca?' : '');
+            }
+
+            input.addEventListener('focus', function () { stop(true); });
+            input.addEventListener('input', function () { stop(true); });
+            input.addEventListener('blur', function () { if (!input.value) start(); });
+
+            start();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initTypewriter);
+        } else {
+            initTypewriter();
+        }
+    })();
+    </script>
 </body>
 </html>

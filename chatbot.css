@@ -16,6 +16,7 @@
 }
 
 .bot-bubble {
+    position: relative;
     width: 60px;
     height: 60px;
     background: var(--chat-accent);
@@ -31,9 +32,33 @@
     animation: botPulse 4s infinite ease-in-out;
 }
 
+/* Aro animado: una línea que se dibuja y se borra girando alrededor del ícono */
+.bot-bubble::before {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    padding: 3px; /* grosor del aro */
+    background: conic-gradient(from 0deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0) 55%,
+        rgba(255, 255, 255, 0.95) 80%,
+        rgba(255, 255, 255, 0) 100%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    animation: botRingSpin 2.4s linear infinite;
+    pointer-events: none;
+}
+
 @keyframes botPulse {
     0%, 100% { transform: scale(1) translateY(0); }
     50% { transform: scale(1.1) translateY(-5px); }
+}
+
+@keyframes botRingSpin {
+    to { transform: rotate(360deg); }
 }
 
 .bot-window {
@@ -62,19 +87,36 @@
     color: white;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.bot-header-main {
+    display: flex;
+    align-items: center;
     gap: 12px;
 }
 
 .bot-header img {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    background: white;
-    padding: 3px;
+    height: 22px;
+    width: auto;
+    max-width: 120px;
+    object-fit: contain;
+    display: block;
 }
 
 .bot-info h4 { margin: 0; font-size: 1rem; }
 .bot-info p { margin: 0; font-size: 0.75rem; opacity: 0.8; }
+
+.bot-icon-btn {
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.14);
+    color: white;
+    cursor: pointer;
+}
 
 .bot-body {
     flex: 1;
@@ -130,6 +172,22 @@
 
 .bot-btn:hover {
     background: var(--chat-primary);
+    color: white;
+}
+
+.msg-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.bot-btn-whatsapp {
+    border-color: var(--chat-accent);
+    color: #127a43;
+}
+
+.bot-btn-whatsapp:hover {
+    background: var(--chat-accent);
     color: white;
 }
 
@@ -215,9 +273,51 @@
 .btn-mini-detail:hover { background: #ddd; }
 
 .bot-footer {
-    padding: 8px;
+    padding: 10px 14px;
     text-align: center;
-    font-size: 0.65rem;
-    color: #bbb;
     background: white;
+    border-top: 1px solid #eee;
+}
+
+.bot-footer-link {
+    border: none;
+    background: transparent;
+    color: var(--chat-primary);
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.bot-contact-card {
+    background: white;
+    border: 1px solid #dfe8de;
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+}
+
+/* WhatsApp bot: ajuste móvil */
+@media (max-width: 768px) {
+    .fermagri-bot-container {
+        bottom: 16px;
+        right: 16px;
+    }
+
+    .bot-bubble {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+    }
+
+    .bot-window {
+        width: calc(100vw - 32px);
+        right: 0;
+        left: 0;
+        margin: 0 auto;
+        height: 70vh;
+        border-radius: 20px;
+    }
 }

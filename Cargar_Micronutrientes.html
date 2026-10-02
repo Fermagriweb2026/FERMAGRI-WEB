@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+    <title>Sincronización de Micronutrientes a Supabase</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f7f6;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            text-align: center;
+        }
+
+        button {
+            background: #24b47e;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #1a8f62;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        #log {
+            margin-top: 20px;
+            text-align: left;
+            background: #222;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 8px;
+            height: 250px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 14px;
+            width: 100%;
+            border: 3px solid #ccc;
+            display: none;
+        }
+
+        #auth-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(26, 26, 26, 0.96);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .auth-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: min(360px, calc(100vw - 40px));
+            text-align: center;
+        }
+
+        .auth-card input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        .auth-help {
+            color: #666;
+            font-size: 0.85rem;
+            line-height: 1.45;
+        }
+
+        .session-badge {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: #e8f5e9;
+            color: #2e7d32;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="auth-overlay">
+        <div class="auth-card">
+            <h3>Acceso autenticado</h3>
+            <p class="auth-help">Esta herramienta ahora requiere un usuario real de Supabase Auth para modificar datos.</p>
+            <input type="email" id="admin-email" placeholder="Correo admin" autocomplete="email">
+            <input type="password" id="admin-pass" placeholder="Contraseña" autocomplete="current-password">
+            <button id="login-btn" onclick="login()">Entrar</button>
+            <p id="auth-error" style="color:red; font-size:12px; margin-top:10px; display:none;"></p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🚀 Cargar Micronutrientes Base a Supabase</h2>
+        <p>El archivo de Excel (CSV) que creé anteriormente está guardado en tu computadora local. Esta herramienta
+            inyectará automática y mágicamente todos esos valores base directamente en tu base de datos (Nube) para cada
+            cultivo.</p>
+        <p style="color:#d35400; font-weight:bold;">¡Haz clic en el botón solo una vez!</p>
+        <span id="session-email" class="session-badge" style="display:none;"></span>
+
+        <button id="btn-sync" onclick="sincronizar()" disabled>📥 Iniciar Inyección de Datos</button>
+        <button id="btn-logout" onclick="logout()" style="display:none; background:#444;">Cerrar sesión</button>
+
+        <div id="log"></div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = "https://bfwqmekquomqkydrxwvm.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJmd3FtZWtxdW9tcWt5ZHJ4d3ZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4OTEzMjIsImV4cCI6MjA4OTQ2NzMyMn0.Tatgp8Gs_5DN-zvmoWjW5IuhbrRQhMtCOxHFCwguHl0";
+        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        const dataBase = [
+            { "nombre_cultivo": "Maiz", "mgo_ha": 35.0, "fe_ha": 2.0, "mn_ha": 0.5, "zn_ha": 0.4, "cu_ha": 0.1, "b_ha": 0.2, "mo_ha": 0.01, "cl_ha": 0.0 },
+            { "nombre_cultivo": "Limón", "mgo_ha": 25.0, "fe_ha": 0.8, "mn_ha": 0.4, "zn_ha": 0.3, "cu_ha": 0.1, "b_ha": 0.2, "mo_ha": 0.01, "cl_ha": 0.0 },
+            { "nombre_cultivo": "Banano", "mgo_ha": 70.0, "fe_ha": 3.0, "mn_ha": 2.0, "zn_ha": 0.6, "cu_ha": 0.2, "b_ha": 0.4, "mo_ha": 0.02, "cl_ha": 0.0 },
+            { "nombre_cultivo": "Palma Africana", "mgo_ha": 50.0, "fe_ha": 2.0, "mn_ha": 0.5, "zn_ha": 0.2, "cu_ha": 0.1, "b_ha": 0.4, "mo_ha": 0.01, "cl_ha": 0.0 },
+            { "nombre_cultivo": "Cacao", "mgo_ha": 25.0, "fe_ha": 0.5, "mn_ha": 0.3, "zn_ha": 0.4, "cu_ha": 0.2, "b_ha": 0.2, "mo_ha": 0.01, "cl_ha": 0.0 },
+            { "nombre_cultivo": "Papas", "mgo_ha": 40.0, "fe_ha": 1.5, "mn_ha": 0.3, "zn_ha": 0.2, "cu_ha": 0.1, "b_ha": 0.2, "mo_ha": 0.01, "cl_ha": 0.0 },
+            { "nombre_cultivo": "Arroz", "mgo_ha": 20.0, "fe_ha": 2.0, "mn_ha": 1.0, "zn_ha": 0.5, "cu_ha": 0.1, "b_ha": 0.1, "mo_ha": 0.01, "cl_ha": 0.0 },
+            { "nombre_cultivo": "Caña de Azucar", "mgo_ha": 50.0, "fe_ha": 3.5, "mn_ha": 1.5, "zn_ha": 0.8, "cu_ha": 0.2, "b_ha": 0.3, "mo_ha": 0.02, "cl_ha": 0.0 },
+            { "nombre_cultivo": "Pitahaya", "mgo_ha": 25.0, "fe_ha": 0.5, "mn_ha": 0.3, "zn_ha": 0.4, "cu_ha": 0.1, "b_ha": 0.2, "mo_ha": 0.01, "cl_ha": 0.0 }
+        ];
+
+        function printLog(msg) {
+            const l = document.getElementById('log');
+            l.style.display = 'block';
+            l.innerHTML += `> ${msg}<br>`;
+            l.scrollTop = l.scrollHeight;
+        }
+
+        async function login() {
+            const email = document.getElementById('admin-email').value.trim();
+            const password = document.getElementById('admin-pass').value;
+            const errorEl = document.getElementById('auth-error');
+            const loginBtn = document.getElementById('login-btn');
+
+            errorEl.style.display = 'none';
+            errorEl.textContent = '';
+
+            if (!email || !password) {
+                errorEl.textContent = 'Ingresa correo y contraseña.';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Entrando...';
+
+            const { error } = await sb.auth.signInWithPassword({ email, password });
+
+            if (error) {
+                errorEl.textContent = error.message;
+                errorEl.style.display = 'block';
+            }
+
+            loginBtn.disabled = false;
+            loginBtn.textContent = 'Entrar';
+        }
+
+        function showAuth() {
+            document.getElementById('auth-overlay').style.display = 'flex';
+            document.getElementById('btn-sync').disabled = true;
+            document.getElementById('btn-logout').style.display = 'none';
+            document.getElementById('session-email').style.display = 'none';
+        }
+
+        function showApp(session) {
+            document.getElementById('auth-overlay').style.display = 'none';
+            document.getElementById('btn-sync').disabled = false;
+            document.getElementById('btn-logout').style.display = 'inline-block';
+            const badge = document.getElementById('session-email');
+            badge.textContent = session?.user?.email || 'Admin autenticado';
+            badge.style.display = 'inline-block';
+        }
+
+        async function checkAuth() {
+            const { data, error } = await sb.auth.getSession();
+            if (error || !data.session) {
+                showAuth();
+                return;
+            }
+
+            showApp(data.session);
+        }
+
+        async function logout() {
+            await sb.auth.signOut();
+            showAuth();
+        }
+
+        async function sincronizar() {
+            const btn = document.getElementById('btn-sync');
+            btn.disabled = true;
+            btn.innerText = "⏳ Inyectando (Por favor espera)...";
+
+            printLog("Iniciando inyección masiva en la base de datos Supabase...");
+
+            let fallos = 0;
+
+            for (const item of dataBase) {
+                printLog(`[Subiendo] Procesando cultivo: ${item.nombre_cultivo}...`);
+
+                try {
+                    const { error } = await sb
+                        .from('calculadora_cultivos')
+                        .update({
+                            fe_ha: item.fe_ha,
+                            mn_ha: item.mn_ha,
+                            zn_ha: item.zn_ha,
+                            cu_ha: item.cu_ha,
+                            b_ha: item.b_ha,
+                            mo_ha: item.mo_ha,
+                            cl_ha: item.cl_ha,
+                            mgo_ha: item.mgo_ha
+                        })
+                        .eq('nombre_cultivo', item.nombre_cultivo);
+
+                    if (error) {
+                        printLog(`[Error] Falló al inyectar ${item.nombre_cultivo}: ${error.message}`);
+                        fallos++;
+                    } else {
+                        printLog(`[Éxito] ${item.nombre_cultivo} actualizado al 100%.`);
+                    }
+                } catch (e) {
+                    printLog(`[Excepción] ${e.message}`);
+                }
+            }
+
+            if (fallos === 0) {
+                printLog("✅ ¡TODOS LOS DATOS INSERTADOS CORRECTAMENTE!");
+                printLog("Refresca tu panel de Administrador ('admin.html') para ver la magia.");
+                btn.innerText = "✨ ¡Inyección Completada!";
+            } else {
+                printLog("⚠️ Hubo problemas con algunos cultivos, mira los registros arriba.");
+                btn.innerText = "Terminado con algunos errores";
+            }
+        }
+
+        sb.auth.onAuthStateChange((_event, session) => {
+            if (session) {
+                showApp(session);
+            } else {
+                showAuth();
+            }
+        });
+
+        checkAuth();
+    </script>
+</body>
+
+</html>

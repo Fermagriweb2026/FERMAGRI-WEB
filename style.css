@@ -1,14 +1,38 @@
 /* 1. Configuración Base */
-* { 
-    margin: 0; 
-    padding: 0; 
-    box-sizing: border-box; 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body { 
-    font-family: 'Montserrat', sans-serif; 
-    background: #fff; 
-    overflow-x: hidden; 
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: #fff;
+    overflow-x: hidden;
+}
+
+/* Reserva el alto del header/footer inyectados por fetch (evita salto de layout / CLS) */
+#header-placeholder {
+    min-height: 116px;
+}
+
+@media (max-width: 768px) {
+    #header-placeholder {
+        min-height: 120px;
+    }
+}
+
+/* Utilidad: contenido visible solo para lectores de pantalla */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
 /* 2. Navegación (PC y General) */
@@ -19,7 +43,7 @@ body {
     background: #fff;
     z-index: 1000;
     height: 80px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     width: 100%;
 }
 
@@ -27,8 +51,10 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1400px; /* Limita el ancho en monitores grandes */
-    margin: 0 auto; /* Centra la barra de navegación */
+    max-width: 1400px;
+    /* Limita el ancho en monitores grandes */
+    margin: 0 auto;
+    /* Centra la barra de navegación */
     height: 100%;
     width: 100%;
 }
@@ -38,30 +64,32 @@ body {
     align-items: center;
 }
 
-.logo img { 
-    height: 55px; 
-    width: auto; 
+.logo img {
+    height: 55px;
+    width: auto;
 }
 
-.nav-menu { 
-    display: flex; 
-    gap: 25px; 
+.nav-menu {
+    display: flex;
+    gap: 25px;
     list-style: none;
 }
 
-.nav-menu a { 
-    text-decoration: none; 
-    color: #333; 
-    font-weight: 500; 
+.nav-menu a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
     font-size: 0.95rem;
     transition: 0.3s;
 }
 
-.nav-menu a:hover { 
-    color: #2D5A27; 
+.nav-menu a:hover {
+    color: #2D5A27;
 }
 
-.hamburger { display: none; }
+.hamburger {
+    display: none;
+}
 
 /* --- RESPONSIVE (CELULARES Y TABLETS) --- */
 @media (max-width: 768px) {
@@ -77,23 +105,35 @@ body {
         transform: translateX(-50%);
     }
 
-    .logo img { height: 45px; }
+    .logo img {
+        height: 45px;
+    }
 
     /* Buscador se ajusta en móvil */
-    .buscador-header { 
+    .buscador-header {
         display: block;
         margin: 10px 20px;
-        order: 5; /* Lo mandamos al final del flujo si es necesario */
+        order: 5;
+        /* Lo mandamos al final del flujo si es necesario */
     }
-    
-    .navbar .buscador-header { display: none; } /* Oculto en la barra principal */
-    .nav-menu .buscador-header { display: block; } /* Visible dentro del menú */
+
+    .navbar .buscador-header {
+        display: none;
+    }
+
+    /* Oculto en la barra principal */
+    .nav-menu .buscador-header {
+        display: block;
+    }
+
+    /* Visible dentro del menú */
 
     .hamburger {
         display: block;
         cursor: pointer;
         z-index: 1100;
-        order: -1; /* Mantiene la hamburguesa a la izquierda */
+        order: -1;
+        /* Mantiene la hamburguesa a la izquierda */
     }
 
     .hamburger span {
@@ -108,93 +148,108 @@ body {
     /* Menú Lateral Desplegable */
     .nav-menu {
         position: fixed;
-        left: -100%; /* Escondido */
+        left: -100%;
+        /* Escondido */
         top: 0;
         flex-direction: column;
         background: #fff;
-        width: 75%; 
+        width: 75%;
         height: 100vh;
         padding-top: 90px;
-        padding-left: 15px; /* Margen de seguridad para que el contenido no se pegue al borde */
+        padding-left: 15px;
+        /* Margen de seguridad para que el contenido no se pegue al borde */
         transition: 0.5s;
-        box-shadow: 10px 0 25px rgba(0,0,0,0.2);
+        box-shadow: 10px 0 25px rgba(0, 0, 0, 0.2);
         z-index: 1050;
         display: flex;
         flex-direction: column;
-        overflow-x: hidden; /* Evita desbordamientos laterales */
+        overflow-x: hidden;
+        /* Evita desbordamientos laterales */
     }
 
-    .nav-menu.active { left: 0; }
+    .nav-menu.active {
+        left: 0;
+    }
 
-    .nav-menu a { 
-        padding: 18px 20px; /* Reducido un poco dado que el contenedor ya tiene padding */
+    .nav-menu a {
+        padding: 18px 20px;
+        /* Reducido un poco dado que el contenedor ya tiene padding */
         font-size: 1.1rem;
         border-bottom: 1px solid #eee;
         display: block;
-        width: 100%; /* Asegura que ocupe todo el ancho del menú */
+        width: 100%;
+        /* Asegura que ocupe todo el ancho del menú */
         color: #333;
         transition: 0.3s;
         text-decoration: none;
         box-sizing: border-box;
     }
-    
+
     .nav-menu a.activo {
         color: #2D5A27;
         font-weight: bold;
-        background: transparent; /* Eliminamos el fondo gris para evitar el efecto de "exceso" */
-        border-bottom: 2px solid #2D5A27; /* Subrayado verde más elegante */
+        background: transparent;
+        /* Eliminamos el fondo gris para evitar el efecto de "exceso" */
+        border-bottom: 2px solid #2D5A27;
+        /* Subrayado verde más elegante */
     }
 
     /* Transformación a "X" al abrir con mejor centrado y POSICIÓN A LA DERECHA DEL MENÚ */
     .hamburger.active {
         position: fixed;
-        right: calc(25% + 20px); /* Ajustado para quedar dentro del menú de forma más natural */
+        right: calc(25% + 20px);
+        /* Ajustado para quedar dentro del menú de forma más natural */
         top: 30px;
         z-index: 1200;
-        left: auto; /* Quitamos el left calc */
+        left: auto;
+        /* Quitamos el left calc */
     }
 
-    .hamburger.active span:nth-child(1) { transform: rotate(-45deg) translate(-5px, 6px); background: #c0392b; }
-    .hamburger.active span:nth-child(2) { opacity: 0; }
-    .hamburger.active span:nth-child(3) { transform: rotate(45deg) translate(-5px, -6px); background: #c0392b; }
+    /* --------COLOR DE LA X------ */
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+        background-color: #2D5A27 !important;
+    }
+
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+        background-color: #2D5A27 !important;
+    }
 
     /* Asegurar que la hamburguesa no se mueva de su sitio base en el navbar cuando no está activa */
-    .navbar { position: relative; }
-    .hamburger { position: relative; z-index: 1100; transition: left 0.5s, transform 0.4s; }
+    .navbar {
+        position: relative;
+    }
+
+    .hamburger {
+        position: relative;
+        z-index: 1100;
+        transition: left 0.5s, transform 0.4s;
+    }
 
     /* Ajustes específicos para la página de producto en móvil */
     .detalle-producto-principal {
-        padding: 30px 0;
+        padding: 0 auto 0 auto;
     }
 
     .contenedor-producto {
         flex-direction: column;
         text-align: center;
-        gap: 20px;
-    }
 
-    .flip-card {
-        height: 500px;
-        max-width: 90%; 
-    }
-
-    .flip-card-back {
-        border-width: 2px;
-    }
-
-    .btn-girar {
-        width: 80%; /* Botón visible y fácil de tocar */
-        justify-content: center;
     }
 
     .producto-titulo {
         font-size: 1.8rem;
-        margin-top: 10px;
+        margin-top: 0px !important;
+        /* CORREGIDO Y REDUCIDO */
     }
 
     .producto-descripcion {
         font-size: 1rem;
-        padding: 0 10px;
         text-align: justify;
     }
 
@@ -211,7 +266,8 @@ body {
     }
 
     .btn-pdf {
-        width: 100%; /* Botones de ancho completo para mejor clic en móvil */
+        width: 75%;
+        /* Botones de ancho completo para mejor clic en móvil */
         justify-content: center;
     }
 }
@@ -271,36 +327,56 @@ body {
 }
 
 @keyframes kenburns {
-    from { transform: scale(1);    background-position: center 40%; }
-    to   { transform: scale(1.18); background-position: center 60%; }
+    from {
+        transform: scale(1);
+        background-position: center 40%;
+    }
+
+    to {
+        transform: scale(1.18);
+        background-position: center 60%;
+    }
 }
 
 /* 4. Hero Content y Animaciones */
-.hero-content { 
-    max-width: 900px; 
-    padding: 40px; 
-    text-align: center; 
-    position: relative; /* Necesario para que z-index funcione sobre .slide-bg */
+.hero-content {
+    max-width: 900px;
+    padding: 40px;
+    text-align: center;
+    position: relative;
+    /* Necesario para que z-index funcione sobre .slide-bg */
     z-index: 10;
 }
 
 /* Animaciones de entrada — solo dentro del slider */
-.hero-content h1 { 
-    font-size: 3.8rem; 
-    margin-bottom: 20px; 
-    text-shadow: 0 4px 15px rgba(0,0,0,0.6); 
+.hero-content h1,
+.hero-content h2 {
+    font-size: 3.8rem;
+    margin-bottom: 20px;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
 }
 
-/* h1 dentro del slider empieza invisible y sube al activarse */
-.slide .hero-content h1 {
+/* Titular dentro del slider empieza invisible y sube al activarse */
+.slide .hero-content h1,
+.slide .hero-content h2 {
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.8s ease-out 0.5s, transform 0.8s ease-out 0.5s;
 }
 
-.hero-content p { 
-    font-size: 1.3rem; 
-    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+.hero-content p {
+    font-size: 1.3rem;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* p dentro del slider con mayor peso visual */
+.hero-content p.hero-destacado {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+    color: #f8f9fa;
 }
 
 /* p dentro del slider empieza invisible */
@@ -311,8 +387,8 @@ body {
 }
 
 .cta-button {
-    background: #ffcc00;
-    color: #2D5A27;
+    background: #2D5A27;
+    color: #fff;
     border: none;
     padding: 18px 40px;
     font-size: 1.1rem;
@@ -323,11 +399,12 @@ body {
     transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     opacity: 0;
     transform: scale(0.9);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     display: inline-block;
 }
 
 .slide.active .hero-content h1,
+.slide.active .hero-content h2,
 .slide.active .hero-content p {
     opacity: 1;
     transform: translateY(0);
@@ -338,10 +415,10 @@ body {
     transform: scale(1);
 }
 
-.cta-button:hover { 
-    background: #fff; 
+.cta-button:hover {
+    background: #fff;
     color: #2D5A27;
-    transform: scale(1.05) translateY(-3px); 
+    transform: scale(1.05) translateY(-3px);
 }
 
 /* Indicadores del Slider (Dots) */
@@ -358,7 +435,7 @@ body {
 .dot {
     width: 12px;
     height: 12px;
-    background: rgba(255,255,255,0.4);
+    background: rgba(255, 255, 255, 0.4);
     border: 2px solid transparent;
     border-radius: 50%;
     cursor: pointer;
@@ -366,13 +443,13 @@ body {
 }
 
 .dot.active {
-    background: #ffcc00;
+    background: #ffffff;
     transform: scale(1.2);
-    border-color: rgba(0,0,0,0.2);
+    border-color: rgba(0, 0, 0, 0.2);
 }
 
 .dot:hover {
-    background: rgba(255,255,255,0.8);
+    background: rgba(255, 255, 255, 0.8);
 }
 
 /* Banner de categoría (páginas internas: Productos, etc.) */
@@ -401,26 +478,56 @@ body {
 }
 
 /* 5. Productos */
-.productos-seccion { padding: 60px 5%; text-align: center; }
-.titulo-seccion h2 { color: #2D5A27; font-size: 2rem; }
-.linea-verde { width: 60px; height: 4px; background-color: #2D5A27; margin: 15px auto 40px; }
+.productos-seccion {
+    padding: 60px 5%;
+    text-align: center;
+}
+
+.titulo-seccion h2 {
+    color: #2D5A27;
+    font-size: 2rem;
+}
+
+.linea-verde {
+    width: 60px;
+    height: 4px;
+    background-color: #2D5A27;
+    margin: 15px auto 40px;
+}
 
 .productos-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 30px;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-.producto-card { padding: 20px; border-radius: 10px; transition: 0.3s; }
-.producto-card:hover { transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-.producto-card img { 
-    width: 100%; 
-    max-width: 200px; 
+/* Ancho fijo para que la última fila se centre sola (3 arriba / 2 abajo) */
+.productos-container .producto-card {
+    width: 300px;
+    box-sizing: border-box;
+}
+
+.producto-card {
+    padding: 20px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.producto-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+.producto-card img {
+    width: 100%;
+    max-width: 200px;
     margin-bottom: 15px;
     transition: 0.3s ease;
 }
+
 .producto-card:hover img {
     border-color: #2D5A27;
 }
@@ -428,7 +535,8 @@ body {
 /* 5.5 Sección Nosotros */
 .nosotros-seccion {
     padding: 80px 5%;
-    background-color: #f9f9f9; /* Gris muy suave para contraste */
+    background-color: #f9f9f9;
+    /* Gris muy suave para contraste */
 }
 
 .nosotros-container {
@@ -482,7 +590,8 @@ body {
     display: block;
     font-size: 1.5rem;
     margin-bottom: 10px;
-    color: #ffcc00; /* Toque amarillo para resaltar */
+    color: #2D5A27;
+    /* Verde de marca (antes amarillo) */
 }
 
 .nosotros-imagen img {
@@ -491,7 +600,7 @@ body {
     /* 86, 141, 79 es el color #568d4f en RGB.
        0.4 es el nivel de transparencia (va de 0 a 1).
     */
-    box-shadow: 20px 20px 15px rgba(8, 73, 1, 0.342); 
+    box-shadow: 20px 20px 15px rgba(8, 73, 1, 0.342);
     transition: 0.3s ease;
 }
 
@@ -508,7 +617,9 @@ body {
     }
 
     .nosotros-texto {
-        order: 2; /* Texto abajo de la imagen en móvil */
+        order: 2;
+        /* Texto abajo de la imagen en móvil */
+        text-align: center;
     }
 
     .linea-verde-izquierda {
@@ -519,7 +630,7 @@ body {
         order: 1;
         margin-bottom: 30px;
     }
-    
+
     .nosotros-imagen img {
         box-shadow: 10px 10px 0px #2D5A27;
     }
@@ -527,35 +638,40 @@ body {
 
 
 /* 6. Footer - Estilo Corporativo Justificado */
-.footer-fermagri { 
-    background-color: #2D5A27; 
-    color: white; 
-    padding: 60px 5% 20px; 
+.footer-fermagri {
+    background-color: #2D5A27;
+    color: white;
+    padding: 60px 5% 20px;
 }
 
-.footer-content { 
-    display: grid; 
+.footer-content {
+    display: grid;
     /* Crea columnas que se adaptan, alineadas al inicio */
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
-    gap: 40px; 
-    max-width: 1200px; 
-    margin: 0 auto; 
-    justify-items: start; 
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    justify-items: start;
 }
 
-.footer-info, .footer-links, .footer-contacto {
+.footer-info,
+.footer-links,
+.footer-contacto {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Alinea items a la izquierda */
-    text-align: left;        /* Alinea texto a la izquierda */
+    align-items: flex-start;
+    /* Alinea items a la izquierda */
+    text-align: left;
+    /* Alinea texto a la izquierda */
 }
 
 /* Estilo para el nuevo Logo Blanco */
 .footer-info img {
-    height: 50px; 
+    height: 50px;
     width: auto;
     margin-bottom: 20px;
-    filter: brightness(0) invert(1); /* Truco CSS: vuelve blanco cualquier logo oscuro si no tienes el SVG a mano */
+    filter: brightness(0) invert(1);
+    /* Truco CSS: vuelve blanco cualquier logo oscuro si no tienes el SVG a mano */
 }
 
 .footer-info p {
@@ -565,26 +681,29 @@ body {
     max-width: 280px;
 }
 
-.footer-links h4, .footer-contacto h4 {
-    color: #ffcc00; /* Amarillo para resaltar títulos */
+.footer-links h2,
+.footer-contacto h2 {
+    color: #9fd34f;
+    /* Verde claro de marca (antes amarillo) */
     margin-bottom: 25px;
     font-size: 1.1rem;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
-.footer-links a { 
-    color: #fff; 
-    text-decoration: none; 
-    margin-bottom: 12px; 
-    opacity: 0.8; 
+.footer-links a {
+    color: #fff;
+    text-decoration: none;
+    margin-bottom: 12px;
+    opacity: 0.8;
     transition: all 0.3s ease;
 }
 
 .footer-links a:hover {
     opacity: 1;
-    color: #ffcc00;
-    transform: translateX(5px); /* Desplazamiento suave al pasar el mouse */
+    color: #9fd34f;
+    transform: translateX(5px);
+    /* Desplazamiento suave al pasar el mouse */
 }
 
 .footer-contacto p {
@@ -595,58 +714,61 @@ body {
 }
 
 /* Derechos reservados - Siempre centrado al final */
-.footer-bottom { 
-    text-align: center; 
-    margin-top: 50px; 
-    padding-top: 20px; 
-    border-top: 1px solid rgba(255,255,255,0.1); 
-    font-size: 0.8rem; 
-    opacity: 0.6; 
+.footer-bottom {
+    text-align: center;
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.8rem;
+    opacity: 0.6;
     width: 100%;
 }
+
 /* Línea estética bajo los títulos del footer (opcional) */
-.footer-links h4::after, .footer-contacto h4::after {
+.footer-links h2::after,
+.footer-contacto h2::after {
     content: '';
     display: block;
     width: 30px;
     height: 2px;
-    background: #ffcc00;
+    background: #9fd34f;
     margin: 8px auto 0;
 }
 
-.footer-links a { 
-    display: block; 
-    color: #fff; 
-    text-decoration: none; 
-    margin-bottom: 12px; 
-    opacity: 0.8; 
+.footer-links a {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    margin-bottom: 12px;
+    opacity: 0.8;
     transition: 0.3s;
 }
 
 .footer-links a:hover {
     opacity: 1;
-    color: #ffcc00;
+    color: #9fd34f;
 }
 
-.footer-bottom { 
-    text-align: center; 
-    margin-top: 50px; 
-    padding-top: 20px; 
-    border-top: 1px solid rgba(255,255,255,0.1); 
-    font-size: 0.85rem; 
-    opacity: 0.7; 
+.footer-bottom {
+    text-align: center;
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.85rem;
+    opacity: 0.7;
 }
 
 /* 7. Buscador Header (PC) */
-.buscador-header { 
-    margin-left: auto; 
-    margin-right: 20px; 
+.buscador-header {
+    margin-left: auto;
+    margin-right: 20px;
     position: relative;
     display: flex;
     align-items: center;
 }
 
-#inputBuscador, #inputBuscadorMobile {
+#inputBuscador,
+#inputBuscadorMobile {
     width: 180px;
     padding: 8px 35px 8px 15px;
     border: 1px solid #ddd;
@@ -657,11 +779,16 @@ body {
 
 .buscador-header i {
     position: absolute;
-    right: 12px;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
     color: #2D5A27;
 }
 
-#inputBuscador:focus { width: 230px; border-color: #2D5A27; }
+#inputBuscador:focus {
+    width: 230px;
+    border-color: #2D5A27;
+}
 
 /* Especial para móvil dentro del menú */
 .nav-menu .buscador-header {
@@ -673,31 +800,45 @@ body {
     width: 100%;
 }
 
-.mobile-only { display: none; }
+.mobile-only {
+    display: none;
+}
+
 @media (max-width: 768px) {
-    .mobile-only { display: block; }
+    .mobile-only {
+        display: block;
+    }
 }
 
 
 
 #titulo-tipeado::after {
     content: '|';
-    margin-left: 8px; /* Un poco más de espacio */
+    margin-left: 8px;
+    /* Un poco más de espacio */
     color: #2D5A27;
     font-weight: bold;
     animation: parpadeo 0.8s infinite;
 }
 
 @keyframes parpadeo {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
 }
 
 /* Sección Principal del Producto */
 /* --- SECCIÓN DETALLE DE PRODUCTO (UNIFICADA) --- */
 .detalle-producto-principal {
-    padding: 60px 0;
-    background-color: #ffffff; /* Cambiado a blanco para seamless look */
+    padding: 30px 0;
+    background-color: #ffffff;
+    /* Cambiado a blanco para seamless look */
     min-height: 70vh;
 }
 
@@ -711,103 +852,107 @@ body {
     padding: 0 20px;
 }
 
-/* Área Visual del Producto (3D Flip) */
+/* Área Visual del Producto (Galería Premium) */
 .producto-visual {
     flex: 1;
-    text-align: center;
-    position: relative;
-    padding-bottom: 20px;
-    perspective: 1000px; /* Necesario para el efecto 3D */
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: -50px; /* Subimos solo el producto como pidió el usuario */
-}
-
-.flip-card {
-    background-color: transparent;
-    width: 100%;
-    max-width: 450px; 
-    height: 550px;
-    perspective: 1000px;
-    margin: 0 auto 20px;
     position: relative;
-    z-index: 5;
+    padding-bottom: 20px;
 }
 
-/* Sombra de piso ovalada eliminada a petición del usuario */
-
-.flip-card-inner {
-    position: relative;
+.galeria-producto {
     width: 100%;
-    height: 100%;
-    text-align: center;
-    transition: transform 0.8s;
-    transform-style: preserve-3d;
-    z-index: 2;
-}
-
-/* Clase añadida vía JS o botón para girar */
-.flip-card.flipped .flip-card-inner {
-    transform: rotateY(180deg);
-}
-
-.flip-card-front, .flip-card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
+    max-width: 450px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent; /* Respetando la transparencia solicita por el usuario */
+    flex-direction: column;
+    gap: 20px;
 }
 
-.flip-card-back {
-    transform: rotateY(180deg);
-    background: transparent;
-    border-radius: 20px;
-    overflow: hidden;
+.visor-principal {
+    width: 100%;
+    height: 450px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fdfdfd;
+    border-radius: 12px;
+    padding: 20px;
 }
 
 .img-producto-destacado {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    filter: drop-shadow(10px 10px 15px rgba(0,0,0,0.1));
-}
-
-.img-textura-full {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    border-radius: 50%; /* Vuelve a ser circular para las pepas */
+    object-fit: contain;
+    filter: drop-shadow(5px 15px 20px rgba(0,0,0,0.08));
 }
 
-/* Botón interactivo debajo de la imagen */
-.btn-girar {
-    background-color: #2D5A27;
-    color: white;
-    border: none;
-    padding: 10px 25px;
-    border-radius: 30px;
-    font-size: 1rem;
-    font-weight: 600;
+.miniaturas-contenedor {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.miniatura {
+    width: 80px;
+    height: 80px;
+    border: 2px solid #eaeaea;
+    border-radius: 8px;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(45, 90, 39, 0.3);
+    overflow: hidden;
+    position: relative;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
-    gap: 10px;
-    position: relative;
-    z-index: 10;
+    justify-content: center;
+    background: #fff;
 }
 
-.btn-girar:hover {
-    background-color: #1e3d1a;
+.miniatura:hover {
+    border-color: #7ab87a;
     transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(45, 90, 39, 0.4);
 }
+
+.miniatura.activa {
+    border-color: #2D5A27;
+    box-shadow: 0 4px 10px rgba(45, 90, 39, 0.2);
+}
+
+.miniatura img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.miniatura span {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: rgba(255,255,255,0.9);
+    color: #333;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-align: center;
+    padding: 3px 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.miniatura:hover span, .miniatura.activa span {
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .visor-principal {
+        height: 350px;
+    }
+    .miniatura {
+        width: 70px;
+        height: 70px;
+    }
+}
+
 
 /* Área de Contenido / Texto */
 .producto-contenido {
@@ -817,25 +962,28 @@ body {
 
 .producto-titulo {
     color: #2D5A27;
-    font-size: 2.8rem;
+    font-size: 2.22rem;
     line-height: 1.1;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     font-weight: 700;
 }
 
 .separador-corto {
     width: 60px;
     height: 4px;
-    background-color: #2D5A27;
-    margin-bottom: 25px;
+    background-color: #2D5A27; 
+    margin: 0 auto 30px;
 }
 
+/*revisar esta linea de codigo */
+
 .producto-descripcion {
-    font-size: 1.1rem;
-    line-height: 1.6;
+    font-size: 1rem;
+    line-height: 1.5;
     color: #444;
-    margin-bottom: 25px;
-    text-align: justify; /* Alineación justificada solicitada por el usuario */
+    margin-bottom: 20px;
+    text-align: justify;
+    /* Alineación justificada solicitada por el usuario */
 }
 
 .producto-dato-verde {
@@ -880,7 +1028,7 @@ body {
 .btn-pdf:hover {
     background-color: #b71c1c;
     transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
 .btn-seguridad {
@@ -893,7 +1041,7 @@ body {
 
 /* Regresar */
 .regresar-contenedor {
-    margin-top: 40px;
+    margin-top: 25px;
 }
 
 .btn-regresar {
@@ -921,7 +1069,7 @@ body {
 /* --- SECCIÓN PRODUCTOS RELACIONADOS --- */
 .relacionados {
     background: #f9f9f9;
-    padding: 60px 5%;
+    padding: 40px 5% 30px;
 }
 
 .contenedor-relacionados {
@@ -940,7 +1088,8 @@ body {
 
 .productos-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 320px));
+    justify-content: center;
     gap: 25px;
     margin-top: 30px;
 }
@@ -950,7 +1099,7 @@ body {
     border-radius: 12px;
     padding: 20px;
     text-align: center;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
     transition: transform 0.3s, box-shadow 0.3s;
     display: flex;
     flex-direction: column;
@@ -960,13 +1109,13 @@ body {
 
 .productos-grid .producto-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
 .productos-grid .producto-card img {
     width: 100%;
-    max-width: 160px;
-    height: 160px;
+    max-width: 250px;
+    height: 250px;
     object-fit: contain;
     border-radius: 8px;
 }
@@ -980,7 +1129,7 @@ body {
 
 .productos-grid .producto-card p {
     font-size: 0.85rem;
-    color: #888;
+    color: #666;
     margin: 0;
 }
 
@@ -1062,12 +1211,13 @@ body {
 
 .tarjeta-producto:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .tarjeta-imagen {
     padding: 20px;
-    background: #f4f4f4; /* Fondo gris claro como en tu captura */
+    background: #f4f4f4;
+    /* Fondo gris claro como en tu captura */
     height: 250px;
     display: flex;
     align-items: center;
@@ -1081,7 +1231,8 @@ body {
 }
 
 .tarjeta-info {
-    background-color: #2D5A27; /* El verde de Fermagri para la barra inferior */
+    background-color: #2D5A27;
+    /* El verde de Fermagri para la barra inferior */
     padding: 10px;
 }
 
@@ -1105,7 +1256,8 @@ body {
 /* Truco para que el video de YouTube mantenga proporción 16:9 */
 .video-aspecto {
     position: relative;
-    padding-bottom: 40%; /* Altura del banner (ajustar si quieres más alto) */
+    padding-bottom: 40%;
+    /* Altura del banner (ajustar si quieres más alto) */
     height: 0;
 }
 
@@ -1115,7 +1267,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none; /* Evita que el usuario pause el video si es solo decorativo */
+    pointer-events: none;
+    /* Evita que el usuario pause el video si es solo decorativo */
 }
 
 .overlay-video {
@@ -1124,7 +1277,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.3); /* Capa oscura para resaltar el texto */
+    background: rgba(0, 0, 0, 0.3);
+    /* Capa oscura para resaltar el texto */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1138,11 +1292,13 @@ body {
     font-size: 4rem;
     font-weight: 900;
     color: #fff;
-    text-shadow: 0 0 20px rgba(0,0,0,0.8); /* Sombra para que resalte sobre el video */
+    text-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    /* Sombra para que resalte sobre el video */
 }
 
 .overlay-video p {
-    background-color: #2D5A27; /* Tu verde Fermagri */
+    background-color: #2D5A27;
+    /* Tu verde Fermagri */
     padding: 10px 30px;
     border-radius: 50px;
     font-weight: bold;
@@ -1160,185 +1316,216 @@ body {
     background: #fff;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s;
 }
 
-.tarjeta-video:hover { transform: translateY(-5px); }
+.tarjeta-video:hover {
+    transform: translateY(-5px);
+}
 
-.miniatura-video { position: relative; }
+.miniatura-video {
+    position: relative;
+}
 
-.miniatura-video img { width: 20%; display: block; }
+.miniatura-video img {
+    width: 20%;
+    display: block;
+}
 
 .boton-play {
     position: absolute;
-    top: 50%; left: 50%;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(45, 90, 39, 0.9); /* Verde Fermagri */
+    background: rgba(45, 90, 39, 0.9);
+    /* Verde Fermagri */
     color: white;
-    width: 50px; height: 50px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     display: flex;
-    align-items: center; justify-content: center;
+    align-items: center;
+    justify-content: center;
     text-decoration: none;
 }
+
 /* --- ESTILOS DE CONTACTO --- */
 .seccion-contacto {
-    padding: 60px 20px;
-    background-color: #f9f9f9;
+    padding: 60px 20px 80px 20px;
+    background-color: #f4f6f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 200px);
 }
 
 .contenedor-contacto {
-    max-width: 1100px;
+    max-width: 1040px;
+    width: 100%;
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    background: #fff;
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    gap: 60px;
+    background: #ffffff;
+    padding: 48px;
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
 }
 
-.info-contacto h2 { color: #2D5A27; margin-bottom: 20px; }
+.info-contacto {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
 
-.dato { display: flex; align-items: center; margin-bottom: 25px; }
-.dato i { 
-    font-size: 24px; 
-    color: #2D5A27; 
-    margin-right: 15px; 
-    width: 30px; 
+.info-contacto .titulo-verde,
+.info-contacto h1 {
+    color: #235028;
+    font-size: 2.15rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin: 0 0 14px 0;
+    text-align: left;
+    letter-spacing: -0.5px;
+}
+
+.info-contacto > p {
+    color: #444444;
+    font-size: 0.98rem;
+    line-height: 1.45;
+    margin: 0 0 28px 0;
+    text-align: left;
+}
+
+.dato {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.dato i {
+    font-size: 19px;
+    color: #235028;
+    margin-top: 3px;
+    width: 20px;
     text-align: center;
+    flex-shrink: 0;
 }
 
-.formulario-contacto .campo { margin-bottom: 20px; }
-.formulario-contacto label { display: block; margin-bottom: 8px; font-weight: bold; color: #333; }
-
-.formulario-contacto input, 
-.formulario-contacto select, 
-.formulario-contacto textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-family: inherit;
-}
-
-.btn-enviar {
-    background: #2D5A27;
-    color: white;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: 0.3s;
-    width: 100%;
-}
-
-.btn-enviar:hover { background: #1e3d1a; }
-
-/* Adaptación a celulares */
-@media (max-width: 768px) {
-    .contenedor-contacto { grid-template-columns: 1fr; }
-}
-
-.seccion-contacto {
-    padding: 80px 20px;
-    background-color: #f4f7f4; /* Un gris verdoso muy suave */
-    display: flex;
-    justify-content: center;
-}
-
-.contenedor-contacto {
-    max-width: 1000px;
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1.2fr; /* Divide en dos columnas */
-    gap: 50px;
-    background: #fff;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-}
-
-.titulo-verde {
-    color: #2D5A27;
-    font-size: 2rem;
-    margin-bottom: 15px;
-}
-
-/* Ajuste de los iconos y datos */
-.dato {
-    display: flex;
-    align-items: flex-start;
-    gap: 15px;
-    margin-top: 25px;
-}
-
-.dato i {
-    color: #2D5A27;
-    font-size: 20px;
-    margin-top: 5px;
-}
-
-/* Estilo de los inputs para que no se vean tan simples */
-.formulario-contacto input, 
-.formulario-contacto select, 
-.formulario-contacto textarea {
-    width: 100%;
-    padding: 12px;
-    margin-top: 5px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    background: #fafafa;
-}
-
-.btn-enviar {
-    background: #2D5A27;
-    color: white;
-    font-weight: bold;
-    border: none;
-    padding: 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    width: 100%;
-    transition: 0.3s;
-}
-
-.btn-enviar:hover {
-    background: #1e3d1a;
-    transform: translateY(-2px);
-}
-
-/* Móviles: se pone uno arriba del otro */
-@media (max-width: 850px) {
-    .contenedor-contacto {
-        grid-template-columns: 1fr;
-    }
-}
-
-.dato {
-    display: flex;
-    align-items: flex-start; /* Alinea el icono con la primera línea de texto */
-    gap: 15px;
-    margin-bottom: 20px; /* Separa una ubicación de la otra */
-}
-
-.dato i {
-    color: #2D5A27;
-    font-size: 20px;
-    margin-top: 5px; /* Ajuste fino para que el icono no quede muy arriba */
+.dato div {
+    text-align: left;
 }
 
 .dato strong {
-    display: block; /* Fuerza a que el texto de abajo salte de línea */
-    color: #333;
+    display: block;
+    color: #1a1a1a;
+    font-size: 0.96rem;
+    font-weight: 700;
+    margin-bottom: 3px;
 }
 
 .dato p {
+    color: #666666;
+    font-size: 0.91rem;
+    line-height: 1.35;
     margin: 0;
-    color: #666;
+}
+
+/* Formulario */
+.formulario-contacto {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+.formulario-contacto form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.formulario-contacto .campo {
+    margin-bottom: 16px;
+    text-align: left;
+    width: 100%;
+}
+
+.formulario-contacto label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 700;
+    font-size: 0.93rem;
+    color: #222222;
+    text-align: left;
+}
+
+.formulario-contacto input,
+.formulario-contacto select,
+.formulario-contacto textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    background: #fdfdfd;
+    font-family: inherit;
+    font-size: 0.94rem;
+    color: #333333;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+
+.formulario-contacto input:focus,
+.formulario-contacto select:focus,
+.formulario-contacto textarea:focus {
+    border-color: #235028;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(35, 80, 40, 0.1);
+}
+
+.formulario-contacto input,
+.formulario-contacto select {
+    height: 44px;
+}
+
+.formulario-contacto textarea {
+    height: 110px;
+    resize: vertical;
+}
+
+.btn-enviar {
+    background: #235028;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.98rem;
+    border: none;
+    height: 48px;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 4px;
+    transition: background 0.2s, transform 0.15s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-enviar:hover {
+    background: #193c1d;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 860px) {
+    .contenedor-contacto {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 30px 20px;
+        border-radius: 16px;
+    }
 }
 
 .whatsapp-float {
@@ -1367,19 +1554,20 @@ body {
 }
 
 /* Estilo para el botón activo */
-    .nav-menu a.activo {
-        color: #2D5A27 !important;
-        font-weight: bold;
-        border-bottom: 2px solid #2D5A27;
-    }
+.nav-menu a.activo {
+    color: #2D5A27 !important;
+    font-weight: bold;
+    border-bottom: 2px solid #2D5A27;
+}
 
-    /* Estilo base para los links del menú */
+/* Estilo base para los links del menú */
 .nav-menu a {
     text-decoration: none;
     color: #333;
     padding: 5px 10px;
     transition: all 0.3s ease;
-    border-bottom: 2px solid transparent; /* Reserva el espacio para que no "salte" */
+    border-bottom: 2px solid transparent;
+    /* Reserva el espacio para que no "salte" */
 }
 
 /* Efecto cuando pasas el mouse (Hover) */
@@ -1391,11 +1579,13 @@ body {
 .nav-menu a.activo {
     color: #2D5A27 !important;
     font-weight: bold;
-    border-bottom: 2px solid #2D5A27; /* Línea verde abajo */
+    border-bottom: 2px solid #2D5A27;
+    /* Línea verde abajo */
 }
 
 .nav-menu a.activo {
-    color: #2D5A27 !important; /* El verde de Fermagri */
+    color: #2D5A27 !important;
+    /* El verde de Fermagri */
     font-weight: bold;
     border-bottom: 2px solid #2D5A27;
 }
@@ -1403,26 +1593,30 @@ body {
 .nav-menu a.activo {
     color: #2D5A27 !important;
     font-weight: bold;
-    text-shadow: 0 0 8px rgba(45, 90, 39, 0.4); /* Resplandor alrededor del texto */
-    transform: scale(1.1); /* Lo hace un poquito más grande */
+    text-shadow: 0 0 8px rgba(45, 90, 39, 0.4);
+    /* Resplandor alrededor del texto */
+    transform: scale(1.1);
+    /* Lo hace un poquito más grande */
     display: inline-block;
 }
 
 .nav-menu a:hover:not(.activo) {
     color: #2D5A27;
-    background-color: #f0f4ef; /* Un gris verdoso muy clarito */
+    background-color: #f0f4ef;
+    /* Un gris verdoso muy clarito */
     border-radius: 20px;
 }
 
 .top-bar {
-    background-color: #006400; /* Ajusta al verde exacto de Fermagri */
+    background-color: #006400;
+    /* Ajusta al verde exacto de Fermagri */
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
     font-size: 13px;
     font-family: Arial, sans-serif;
-    border-bottom: 1px solid rgba(255,255,255,0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .top-bar-item {
@@ -1463,6 +1657,7 @@ body {
         overflow-x: auto;
         justify-content: flex-start;
     }
+
     .top-bar-item {
         white-space: nowrap;
     }
@@ -1494,7 +1689,7 @@ body {
     background: white;
     padding: 40px;
     border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     width: 350px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border-bottom: 4px solid transparent;
@@ -1502,8 +1697,9 @@ body {
 
 .servicio-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-    border-bottom: 4px solid #006b2b; /* Verde Fermagri */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    border-bottom: 4px solid #006b2b;
+    /* Verde Fermagri */
 }
 
 .servicio-icono {
@@ -1531,24 +1727,31 @@ body {
         flex-direction: column;
         align-items: center;
     }
+
     .servicio-card {
         width: 100%;
         max-width: 320px;
     }
-} 
+}
+
 .productos-container a {
-    text-decoration: none; /* Quita el subrayado */
-    color: inherit;        /* Hereda el color del texto que ya tenías */
-    display: block;        /* Hace que toda la tarjeta sea el área de clic */
+    text-decoration: none;
+    /* Quita el subrayado */
+    color: inherit;
+    /* Hereda el color del texto que ya tenías */
+    display: block;
+    /* Hace que toda la tarjeta sea el área de clic */
     transition: transform 0.3s ease;
 }
 
 .productos-container a:hover {
-    transform: scale(1.05); /* Un pequeño zoom al pasar el mouse para feedback */
+    transform: scale(1.05);
+    /* Un pequeño zoom al pasar el mouse para feedback */
 }
 
 .producto-visual {
-    position: relative; /* Para que el círculo se ubique respecto al saco */
+    position: relative;
+    /* Para que el círculo se ubique respecto al saco */
 }
 
 .contenedor-textura {
@@ -1558,9 +1761,10 @@ body {
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    border: 8px solid #7ab929; /* El verde lima de tu imagen */
+    border: 8px solid #7ab929;
+    /* El verde lima de tu imagen */
     overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     background: white;
     transition: transform 0.3s ease;
 }
@@ -1568,7 +1772,8 @@ body {
 .contenedor-textura img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Para que el grano llene el círculo */
+    object-fit: cover;
+    /* Para que el grano llene el círculo */
 }
 
 .contenedor-textura span {
@@ -1577,7 +1782,8 @@ body {
     left: 0;
     right: 0;
     text-align: center;
-    background: rgba(26, 74, 46, 0.8); /* Verde oscuro transparente */
+    background: rgba(26, 74, 46, 0.8);
+    /* Verde oscuro transparente */
     color: white;
     font-size: 10px;
     font-weight: bold;
@@ -1592,15 +1798,15 @@ body {
 .contenedor-producto {
     display: flex;
     align-items: center;
-    gap: 60px;
     max-width: 1200px;
-    margin: 0 auto;
+    margin: auto;
 }
 
 /* Área de imagen y círculo */
 .producto-visual {
     flex: 1;
-    position: relative; /* Importante para que el círculo no flote por cualquier lado */
+    position: relative;
+    /* Importante para que el círculo no flote por cualquier lado */
     display: flex;
     justify-content: center;
 }
@@ -1608,7 +1814,7 @@ body {
 .img-producto-destacado {
     max-height: 500px;
     width: auto;
-    filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.1));
+    filter: drop-shadow(10px 10px 20px rgba(0, 0, 0, 0.1));
 }
 
 /* El círculo verde de la textura */
@@ -1619,10 +1825,11 @@ body {
     width: 140px;
     height: 140px;
     border-radius: 50%;
-    border: 6px solid #7ab929; /* Verde Fermagri */
+    border: 6px solid #7ab929;
+    /* Verde Fermagri */
     overflow: hidden;
     background: white;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .contenedor-textura img {
@@ -1644,7 +1851,8 @@ body {
 
 .contenedor-grano {
     position: absolute;
-    left: -50px; /* Ajusta esto para que se vea al lado izquierdo del saco */
+    left: -50px;
+    /* Ajusta esto para que se vea al lado izquierdo del saco */
     bottom: 10px;
     z-index: 10;
 }
@@ -1652,20 +1860,24 @@ body {
 /* Ajuste para que el grano flote a la izquierda del saco */
 .ver-grano-flotante {
     position: absolute;
-    bottom: 5%;      /* Ajusta la altura */
-    left: -20px;     /* Lo mueve hacia la izquierda del saco */
+    bottom: 5%;
+    /* Ajusta la altura */
+    left: -20px;
+    /* Lo mueve hacia la izquierda del saco */
     z-index: 5;
     transition: transform 0.3s ease;
 }
 
 .ver-grano-flotante:hover {
-    transform: scale(1.1); /* Efecto de crecimiento al pasar el mouse */
+    transform: scale(1.1);
+    /* Efecto de crecimiento al pasar el mouse */
 }
 
 /* --- CONTENEDOR DE LA CUADRÍCULA --- */
 .productos-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Crea columnas automáticas */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    /* Crea columnas automáticas */
     gap: 30px;
     padding: 40px 5%;
     max-width: 1200px;
@@ -1678,7 +1890,7 @@ body {
     border-radius: 15px;
     padding: 20px;
     text-align: center;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
     transition: transform 0.3s ease;
     border: 1px solid #eee;
 }
@@ -1688,7 +1900,7 @@ body {
 }
 
 .producto-card img {
-    max-width: 180px;
+    max-width: 250px;
     height: auto;
     margin-bottom: 15px;
 }
@@ -1710,26 +1922,28 @@ body {
 
 .btn-filtro {
     padding: 10px 25px;
-    border: 2px solid #7ab929;
+    border: 2px solid #2D5A27;
     background: transparent;
-    color: #7ab929;
+    color: #2D5A27;
     border-radius: 25px;
     cursor: pointer;
     font-weight: bold;
     transition: all 0.3s ease;
 }
 
-.btn-filtro:hover, .btn-filtro.active {
-    background: #7ab929;
+.btn-filtro:hover,
+.btn-filtro.active {
+    background: #2D5A27;
     color: white;
 }
 
 /* Contenedor de las tarjetas */
 .productos-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 40px;
     padding: 50px 8%;
+    justify-content: center;
 }
 
 /* Estilo de los botones de filtro */
@@ -1741,9 +1955,9 @@ body {
 }
 
 .btn-filtro {
-    border: 1.5px solid #7ab929;
+    border: 1.5px solid #2D5A27;
     background: white;
-    color: #7ab929;
+    color: #2D5A27;
     padding: 8px 25px;
     border-radius: 20px;
     font-weight: 600;
@@ -1752,10 +1966,11 @@ body {
 }
 
 /* Clase que se activa cuando el producto coincide con la categoría */
-.btn-filtro.active, .btn-filtro:hover {
-    background: #7ab929;
+.btn-filtro.active,
+.btn-filtro:hover {
+    background: #2D5A27;
     color: white;
-    box-shadow: 0 4px 12px rgba(122, 185, 41, 0.3);
+    box-shadow: 0 4px 12px rgba(45, 90, 39, 0.3);
 }
 
 /* Ajuste de las tarjetas */
@@ -1769,14 +1984,15 @@ body {
 }
 
 .producto-card:hover {
-    box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
 }
 
 /* Título centrado y sutil */
 #titulo-categoria {
-    font-size: 1.5rem !important;
+    font-size: 1.8rem !important;
     text-align: center !important;
-    color: #2d4a22 !important; /* Verde oscuro profesional */
+    color: #2d4a22 !important;
+    /* Verde oscuro profesional */
     text-transform: uppercase !important;
     letter-spacing: 2px !important;
     margin: 40px auto 10px auto !important;
@@ -1804,9 +2020,9 @@ body {
 
 /* Estilo de los botones (como los de tu captura image_998dc0.png) */
 .btn-filtro {
-    border: 1px solid #7ab929 !important;
+    border: 1px solid #2D5A27 !important;
     background: white !important;
-    color: #7ab929 !important;
+    color: #2D5A27 !important;
     padding: 8px 25px !important;
     border-radius: 20px !important;
     cursor: pointer !important;
@@ -1814,18 +2030,23 @@ body {
     transition: 0.3s !important;
 }
 
-.btn-filtro.active, .btn-filtro:hover {
-    background: #7ab929 !important;
+.btn-filtro.active,
+.btn-filtro:hover {
+    background: #2D5A27 !important;
     color: white !important;
 }
 
 /* Contenedor principal (el que tiene la imagen de fondo) */
 .hero-container {
     display: flex;
-    justify-content: center; /* Centrado horizontal */
-    align-items: center;     /* Centrado vertical */
-    text-align: center;      /* Centra las líneas de texto internamente */
-    min-height: 60vh;        /* Ajusta la altura según necesites */
+    justify-content: center;
+    /* Centrado horizontal */
+    align-items: center;
+    /* Centrado vertical */
+    text-align: center;
+    /* Centra las líneas de texto internamente */
+    min-height: 60vh;
+    /* Ajusta la altura según necesites */
     width: 100%;
     padding: 20px;
     box-sizing: border-box;
@@ -1834,13 +2055,17 @@ body {
 /* 1. Centrar todo el contenido del banner */
 .banner-categoria {
     width: 100%;
-    min-height: 300px; /* Ajusta la altura que desees para el banner */
+    min-height: 300px;
+    /* Ajusta la altura que desees para el banner */
     display: flex;
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center;     /* Centra verticalmente */
+    justify-content: center;
+    /* Centra horizontalmente */
+    align-items: center;
+    /* Centra verticalmente */
     text-align: center;
     padding: 60px 20px;
-    background-color: #f9f9f9; /* O tu imagen de fondo */
+    background-color: #f9f9f9;
+    /* O tu imagen de fondo */
 }
 
 /* 2. Asegurar que el contenido interno se apile verticalmente y se centre */
@@ -1862,15 +2087,19 @@ body {
 
 /* 4. La línea verde centrada */
 .linea-verde {
-    width: 60px;       /* Ancho de la rayita */
-    height: 4px;       /* Grosor de la rayita */
-    background-color: #4CAF50; /* Tu color verde */
-    margin: 0 auto;    /* Refuerzo de centrado */
+    width: 60px;
+    /* Ancho de la rayita */
+    height: 4px;
+    /* Grosor de la rayita */
+    background-color: #4CAF50;
+    /* Tu color verde */
+    margin: 0 auto;
+    /* Refuerzo de centrado */
 }
 
 .relacionados {
     background-color: #f4f4f4;
-    padding: 60px 20px;
+    padding: 15px 20px;
     border-top: 1px solid #eee;
 }
 
@@ -1901,31 +2130,33 @@ body {
     position: relative;
     z-index: 5;
     transition: transform 0.4s ease;
-    max-width: 400px; /* Ajusta según tu diseño */
+    max-width: 400px;
+    /* Ajusta según tu diseño */
 }
 
-.producto-visual:hover .img-producto-destacado {
-    transform: translateX(20px); /* El saco se mueve un poco a la derecha */
-}
+
 
 
 /* --- FORMATO DE LISTA PARA LA DESCRIPCIÓN --- */
 .producto-descripcion p {
     position: relative;
-    padding-left: 25px; /* Espacio para el punto */
+    padding-left: 18px;
+    /* Espacio para el punto */
     line-height: 1.6;
-    margin-bottom: 12px;
-    color: #444;
-    font-size: 1.05rem;
+    margin-bottom: 10px;
+    color: #272727;
+    font-size: 1.1rem;
     text-align: justify;
 }
 
 /* El punto verde como índice */
 .producto-descripcion p::before {
-    content: '•'; /* Puedes usar '→' si prefieres una flecha */
+    content: '•';
+    /* Puedes usar '→' si prefieres una flecha */
     position: absolute;
     left: 0;
-    color: #4CAF50; /* Tu verde Fermagri */
+    color: #4CAF50;
+    /* Tu verde Fermagri */
     font-weight: bold;
     font-size: 1.5rem;
     line-height: 1;
@@ -1943,7 +2174,8 @@ body {
     letter-spacing: -1px;
 }
 
-.producto-dosis, .producto-presentacion {
+.producto-dosis,
+.producto-presentacion {
     background: #f9f9f9;
     padding: 10px 15px;
     border-left: 4px solid #4CAF50;
@@ -1954,13 +2186,15 @@ body {
 /* Estilo uniforme para todas las negritas en descripciones */
 .producto-descripcion strong {
     font-weight: 700;
-    color: #2e7d32; /* Un verde oscuro corporativo */
+    color: #2e7d32;
+    /* Un verde oscuro corporativo */
 }
 
 .buscador-contenedor {
     margin-top: 20px;
     position: relative;
-    max-width: 400px;
+    width: 100%;
+    max-width: 440px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -1983,7 +2217,7 @@ body {
 }
 
 .btn-filtro.active {
-    background-color: #4CAF50;
+    background-color: #2D5A27;
     color: white;
 }
 
@@ -1994,7 +2228,8 @@ body {
 
 .btn-regresar {
     text-decoration: none;
-    color: #2e7d32; /* Tu verde Fermagri */
+    color: #2e7d32;
+    /* Tu verde Fermagri */
     font-weight: bold;
     display: inline-flex;
     align-items: center;
@@ -2004,12 +2239,14 @@ body {
 
 .btn-regresar:hover {
     color: #1b5e20;
-    transform: translateX(-5px); /* Pequeño efecto de movimiento */
+    transform: translateX(-5px);
+    /* Pequeño efecto de movimiento */
 }
 
 .contenedor-regresar-detalle {
     margin-top: 25px;
-    border-top: 1px solid #eee; /* Una línea sutil divisoria */
+    border-top: 1px solid #eee;
+    /* Una línea sutil divisoria */
     padding-top: 20px;
 }
 
@@ -2017,7 +2254,8 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    color: #4CAF50; /* El verde de tus botones */
+    color: #4CAF50;
+    /* El verde de tus botones */
     text-decoration: none;
     font-weight: 600;
     font-size: 15px;
@@ -2030,7 +2268,8 @@ body {
 
 .btn-volver-catalogo:hover {
     color: #2e7d32;
-    transform: translateX(5px); /* Se mueve un poquito a la derecha al pasar el mouse */
+    transform: translateX(5px);
+    /* Se mueve un poquito a la derecha al pasar el mouse */
 }
 
 /* Quitar subrayado de las tarjetas de productos */
@@ -2053,7 +2292,7 @@ body {
 }
 
 /* Efecto opcional: Que solo cambie el color al pasar el mouse, pero sin línea */
-.producto-card a:hover, 
+.producto-card a:hover,
 .link-volver:hover {
     text-decoration: none !important;
     opacity: 0.8;
@@ -2062,19 +2301,23 @@ body {
 /* --- ESTILO PARA ENLACES DE PRODUCTOS --- */
 
 /* Quita el morado/azul, pone negrita y quita el subrayado en las tarjetas */
-.producto-card a, 
-.btn-detalle, 
+.producto-card a,
+.btn-detalle,
 .link-volver {
-    text-decoration: none !important; /* Quita la línea */
-    color: #333333 !important;       /* Color negro/gris oscuro para evitar el morado */
-    font-weight: bold !important;    /* Pone el texto en negritas */
+    text-decoration: none !important;
+    /* Quita la línea */
+    color: #333333 !important;
+    /* Color negro/gris oscuro para evitar el morado */
+    font-weight: bold !important;
+    /* Pone el texto en negritas */
     transition: color 0.3s ease;
 }
 
 /* Efecto al pasar el mouse (opcional: cambia a verde Fermagri) */
-.btn-detalle:hover, 
+.btn-detalle:hover,
 .link-volver:hover {
-    color: #4CAF50 !important;       /* Cambia a verde al pasar el mouse */
+    color: #4CAF50 !important;
+    /* Cambia a verde al pasar el mouse */
     text-decoration: none !important;
 }
 
@@ -2089,7 +2332,8 @@ body {
 
 /* Esto asegura que la concentración y la dosis se vean igualitas */
 .producto-dosis {
-    border-left: 3px solid #3b7139; /* El verde de Fermagri */
+    border-left: 3px solid #3b7139;
+    /* El verde de Fermagri */
     padding-left: 15px;
     margin-bottom: 15px;
     display: block;
@@ -2159,9 +2403,11 @@ body {
     flex-wrap: wrap;
 }
 
-.btn, .cta-button {
+.btn,
+.cta-button {
     padding: 12px 35px;
-    border-radius: 50px; /* Diseño tipo pastilla (pill) */
+    border-radius: 50px;
+    /* Diseño tipo pastilla (pill) */
     text-decoration: none;
     font-weight: 700;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -2174,16 +2420,16 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* El botón amarillo original */
+/* Botón sólido verde (antes amarillo) */
 .cta-button {
-    background: #FFD700;
-    color: #1a4d2e !important;
+    background: #2D5A27;
+    color: #fff !important;
 }
 
 .cta-button:hover {
-    background: #ffec8b;
+    background: #357a2e;
     transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);
+    box-shadow: 0 8px 20px rgba(45, 90, 39, 0.3);
 }
 
 .btn-primary {
@@ -2223,4 +2469,1090 @@ body {
 .btn-nutri:hover {
     background: #2ecc71;
     box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
+}
+
+/* --- EFECTO LIQUID GLASS (REDISEÑO NEUTRO SEGÚN IMAGEN - MÁS FINO Y TRANSPARENTE) --- */
+.slider-container .btn, 
+.slider-container .cta-button {
+    backdrop-filter: blur(20px) !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 0.8px solid rgba(255, 255, 255, 0.15) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.3) !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 
+        inset 0 1px 1px rgba(255, 255, 255, 0.3), 
+        inset 0 -1px 0.5px rgba(0, 0, 0, 0.05), 
+        0 8px 32px 0 rgba(0, 0, 0, 0.25) !important;
+    position: relative;
+    overflow: hidden;
+    color: #fff !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Brillo líquido al pasar el mouse */
+.slider-container .btn::after, 
+.slider-container .cta-button::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -100%;
+    width: 60%;
+    height: 200%;
+    background: linear-gradient(
+        to right, 
+        rgba(255, 255, 255, 0) 0%, 
+        rgba(255, 255, 255, 0.1) 50%, 
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(25deg);
+    transition: all 1.2s ease;
+    pointer-events: none;
+}
+
+.slider-container .btn:hover::after, 
+.slider-container .cta-button:hover::after {
+    left: 150%;
+}
+
+/* Los botones heredan el estilo base neutro definido arriba */
+
+/* Hover States Premium Neutro */
+.slider-container .btn:hover, 
+.slider-container .cta-button:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    transform: translateY(-4px) scale(1.03) !important;
+    box-shadow: 
+        inset 0 1px 1.5px rgba(255, 255, 255, 0.5), 
+        0 15px 45px 0 rgba(0, 0, 0, 0.3) !important;
+    border-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* --- AI RESTORED STYLES --- */
+
+/* 2. Mobile Header customizations */
+@media (max-width: 768px) {
+
+    /* Background Color */
+    .navbar {
+        background-color: #418431 !important;
+    }
+
+    /* Increased logo size */
+    .navbar-brand img,
+    .logo img {
+        transform: scale(2.5) !important;
+    }
+
+    /* Hamburger menu lines */
+    .hamburger span {
+        background-color: white !important;
+    }
+}
+
+/* 4. Ver Detalle Button Style */
+.btn-detalle {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: transparent !important;
+    color: #2D5A27 !important;
+    border: 2px solid #2D5A27 !important;
+    border-radius: 25px;
+    text-decoration: none !important;
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+}
+
+.btn-detalle:hover {
+    background-color: #2D5A27 !important;
+    color: #fff !important;
+}
+
+/* --- END AI RESTORED STYLES --- */
+
+/* Utility Classes for Responsive Display */
+.producto-card .pcat-arrow,
+.pcat-arrow {
+    opacity: 0 !important;
+    display: none !important;
+    visibility: hidden !important;
+}
+
+@media (max-width: 768px) {
+    .desktop-only {
+        display: none !important;
+    }
+
+    .top-bar,
+    .header-superior {
+        display: none !important;
+    }
+}
+
+@media (min-width: 769px) {
+    .mobile-only {
+        display: none !important;
+    }
+}
+
+/* =====================================================
+   REFINAMIENTO UI MÓVIL — Categorías, Producto, Hero (RECOVERED FROM DIFF)
+===================================================== */
+@media (max-width: 768px) {
+    .pcat-icono {
+        width: 100%;
+        max-width: 320px;
+        height: 180px;
+        background: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: visible;
+        margin-bottom: 20px;
+    }
+
+    .pcat-icono img {
+        width: 100%;
+        height: 100%;
+        max-height: 150px;
+        object-fit: contain;
+        /* transform: scale(2.4); Removed because it caused huge overlapping icons */
+        display: block !important;
+        margin: 0 auto;
+    }
+
+    /* Bloque de texto centrado gigante balanceado */
+    .pcat-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .pcat-info h3 {
+        font-size: 1.3rem;
+        /* -15% del anterior 1.5rem */
+        font-weight: 800;
+        color: #1a3a16;
+        letter-spacing: 0.5px;
+        margin: 0;
+        text-transform: uppercase;
+    }
+
+    .pcat-info p {
+        font-size: 1.05rem;
+        /* -15% aprox del anterior 1.25rem */
+        color: #666;
+        margin: 0;
+        line-height: 1.4;
+        max-width: 90%;
+    }
+
+    /* Ocultar flecha en diseño vertical */
+    .producto-card .pcat-arrow,
+    .pcat-arrow {
+        opacity: 0 !important;
+        display: none !important;
+        visibility: hidden !important;
+    }
+
+    /* El título h3 ya no está oculto para que siempre se vea el nombre del producto en móvil */
+
+    /* ── Saco del producto y Textura ── */
+    #flip-card {
+        height: 250px !important;
+        width: 250px !important;
+        max-width: 250px !important;
+        margin: 30px auto 120px !important; /* Más margen abajo para el botón */
+        scale: 1.1; 
+        overflow: visible !important;
+    }
+
+    #flip-card .flip-card-inner,
+    #flip-card .flip-card-front,
+    #flip-card .flip-card-back {
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    /* Frente: Saco */
+    #flip-card .flip-card-front {
+        border-radius: 0 !important;
+    }
+
+    #flip-card .img-producto-destacado {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important; /* El saco no debe cortarse */
+        border-radius: 0 !important;
+    }
+
+    /* Reverso: Textura en Círculo */
+    #flip-card .flip-card-back {
+        border-radius: 50% !important;
+        overflow: hidden !important;
+    }
+    
+    #flip-card .img-textura-full {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important; /* La textura llena el círculo */
+        border-radius: 50% !important;
+    }
+
+    .producto-visual {
+        margin-top: 0 !important;
+        padding-bottom: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+
+    /* ── Botón debajo del círculo ── */
+    .btn-girar {
+        margin-top: -60px !important; /* Sube el botón para que esté cerca del círculo escalado */
+        margin-bottom: 20px !important;
+        z-index: 20 !important;
+    }
+
+    .producto-titulo {
+        /* CAMBIO: Aumentado según feedback del usuario */
+        font-size: 2.3rem !important;
+        text-align: center !important;
+        line-height: 1.1 !important;
+        margin-top: 10px !important;
+    }
+
+    /* ── Título sección sin tanto aire ── */
+    .titulo-seccion {
+        padding-bottom: 0;
+    }
+}
+
+/* =====================================================
+   MOBILE HERO CLEAN — Estilo premium, fondo blanco
+===================================================== */
+.mobile-hero {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    /* Centrado horizontal */
+    text-align: center;
+    /* Texto centrado */
+    background: #ffffff;
+    padding: 60px 24px 50px;
+    /* Más espacio solicitado */
+    border-bottom: 1px solid #eee;
+}
+
+.mhero-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #111;
+    line-height: 1.1;
+    margin: 0 0 16px;
+    letter-spacing: -0.8px;
+    text-align: center;
+}
+
+.mhero-accent {
+    color: #2D5A27; /* Green color from Image 2 */
+    position: relative;
+    display: inline-block;
+}
+
+.mhero-accent::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 3px;
+    background: #7ab929;
+    border-radius: 2px;
+}
+
+.mhero-sub {
+    font-size: 0.92rem;
+    color: #666;
+    line-height: 1.6;
+    margin: 0 0 24px;
+    text-align: center;
+}
+
+.mhero-search {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f5f5f5;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 14px 18px;
+    width: 100%;
+    max-width: 450px;
+    box-sizing: border-box;
+    margin: 0 auto 16px;
+    transition: all 0.2s ease;
+}
+
+.mhero-search:focus-within {
+    border-color: #2D5A27;
+    box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.1);
+    background: #fff;
+}
+
+.mhero-search i {
+    color: #999;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.mhero-search input {
+    border: none;
+    outline: none;
+    background: transparent;
+    flex: 1;
+    font-size: 0.9rem;
+    color: #333;
+    font-family: 'Montserrat', sans-serif;
+    text-align: left;
+}
+
+.mhero-search input::placeholder {
+    color: #aaa;
+}
+
+.mhero-btns {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Centrar los botones */
+    gap: 12px;
+    width: 100%;
+}
+
+.mhero-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 24px;
+    width: 100%;
+    max-width: 450px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    letter-spacing: 0.2px;
+    transition: transform 0.15s, opacity 0.15s;
+    border: none;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    box-sizing: border-box;
+}
+
+.mhero-btn:active {
+    transform: scale(0.97);
+    opacity: 0.9;
+}
+
+.mhero-primary {
+    background: #2D5A27;
+    color: #fff !important;
+    box-shadow: 0 4px 16px rgba(45, 90, 39, 0.22);
+}
+
+.mhero-primary:hover {
+    background: #25d10e;
+}
+
+.mhero-secondary {
+    background: #fff;
+    color: #333 !important;
+    border: 2px solid #ddd;
+}
+
+.mhero-secondary:hover {
+    border-color: #2D5A27;
+    color: #2D5A27 !important;
+}
+
+/* ── Isotipo en el header móvil ── */
+.logo-isotipo {
+    display: none;
+    /* activado en móvil */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+}
+
+.logo-isotipo img {
+    height: 88px;
+    width: auto;
+}
+
+/* Activar en móvil */
+@media (max-width: 768px) {
+    .mobile-hero {
+        display: flex;
+    }
+
+    /* Header: más alto para el logo gigante */
+    .navbar {
+        min-height: 110px !important;
+        background-color: #418431 !important;
+        /* Update background color to green */
+    }
+
+    .navbar-container {
+        min-height: 110px;
+        position: relative;
+        background-color: #418431 !important;
+    }
+
+    /* Isotipo variable */
+    .logo-isotipo {
+        display: block;
+    }
+
+    .logo-isotipo img {
+        height: 88px;
+        /* 200% exacto del original 44px */
+    }
+
+    /* Ocultar buscador del header en móvil para dejar espacio al logo */
+    .buscador-header:not(.mobile-only) {
+        display: none !important;
+    }
+}
+
+/* Badge de nutrientes en comun */
+.badge-nutriente {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #eaf4e8;
+    color: #2D5A27;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid #c3dfc0;
+    margin-top: 5px;
+}
+
+/* =====================================================
+   QUICK-WIN DISEÑO (revisión jun 2026)
+   Solo presentación: sin cambios de estructura ni contenido.
+===================================================== */
+
+/* Tarjetas de categoría (home): darles cuerpo sobre el fondo blanco
+   para que dejen de "flotar" y el grid 3+2 se lea intencional. */
+.productos-container .producto-card {
+    background: #fdfefb;
+    border: 1px solid #e7ede1;
+    box-shadow: 0 4px 16px rgba(26, 77, 46, 0.05);
+}
+
+.productos-container .producto-card:hover {
+    border-color: #7ab929;
+    box-shadow: 0 16px 34px rgba(26, 77, 46, 0.14);
+}
+
+/* Home categorias: con 4 categorias visibles, se muestran en una sola fila en desktop. */
+@media (min-width: 1025px) {
+    .productos-container {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 24px;
+        max-width: 1480px;
+    }
+
+    .productos-container .producto-card {
+        width: auto;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .productos-container {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+    }
+
+    .productos-container .producto-card {
+        width: auto;
+    }
+}
+
+/* Desktop: aro suave detrás del ícono (profundidad + pesos uniformes)
+   y composición centrada limpia. */
+@media (min-width: 769px) {
+    .productos-container .pcat-icono {
+        width: 132px;
+        height: 132px;
+        margin: 4px auto 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: radial-gradient(circle at 50% 42%, #f2f8ea 0%, #e8f1de 100%);
+    }
+
+    .productos-container .pcat-icono img {
+        width: auto;
+        max-width: 74px;
+        max-height: 74px;
+        margin-bottom: 0;
+    }
+
+    .productos-container .pcat-info {
+        text-align: center;
+    }
+}
+
+/* =====================================================
+   DISEÑO — Atmósfera y sección Servicios
+   (revisión jun 2026) · solo presentación
+===================================================== */
+
+/* --- Hover del botón primario móvil: verde de marca (antes #25d10e) --- */
+.mhero-primary:hover {
+    background: #357a2e;
+}
+
+/* =====================================================
+   SECCIÓN SERVICIOS — banda verde con identidad propia
+   (se diferencia del gris de "Sobre Fermagri" que va encima)
+===================================================== */
+.seccion-servicios {
+    background: linear-gradient(180deg, #f1f7ec 0%, #e7f1de 100%);
+    border-top: 1px solid #dce8d2;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Halo decorativo suave para dar profundidad/atmósfera */
+.seccion-servicios::before {
+    content: '';
+    position: absolute;
+    top: -120px;
+    right: -80px;
+    width: 360px;
+    height: 360px;
+    background: radial-gradient(circle, rgba(122, 185, 41, 0.12) 0%, rgba(122, 185, 41, 0) 70%);
+    pointer-events: none;
+}
+
+.titulo-servicios {
+    color: #1a4d2e;
+}
+
+/* Compactar el bloque para que las 2 tarjetas no floten en un ancho enorme */
+.grid-servicios {
+    max-width: 840px;
+    margin: 46px auto 0;
+    position: relative;
+    z-index: 1;
+}
+
+/* Tarjetas con más presencia */
+.seccion-servicios .servicio-card {
+    flex: 1 1 320px;
+    width: auto;
+    background: #ffffff;
+    border: 1px solid #e4ede0;
+    border-bottom: 4px solid #7ab929;
+    box-shadow: 0 12px 30px rgba(26, 77, 46, 0.08);
+    text-align: center;
+}
+
+.seccion-servicios .servicio-card:hover {
+    border-bottom-color: #006b2b;
+    box-shadow: 0 20px 44px rgba(26, 77, 46, 0.16);
+}
+
+/* Ícono dentro de un aro verde, coherente con las tarjetas de categoría */
+.seccion-servicios .servicio-icono {
+    width: 92px;
+    height: 92px;
+    margin: 0 auto 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 38px;
+    color: #1a4d2e;
+    background: radial-gradient(circle at 50% 40%, #eef6e4 0%, #e2efd6 100%);
+}
+
+/* =====================================================
+   HERO — impacto al abrir (revisión jun 2026) · solo presentación
+===================================================== */
+
+/* Scrim superior: asegura legibilidad del nav/top-bar sobre la imagen */
+.slider-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 160px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 100%);
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* Titular con más presencia y aire */
+.slider-container .hero-content h1,
+.slider-container .hero-content h2 {
+    font-size: 4.3rem;
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -1.2px;
+    text-shadow: 0 6px 26px rgba(0, 0, 0, 0.45);
+}
+
+/* Palabra/frase destacada del titular (si se envuelve en <span class="hero-accent">) */
+.hero-content .hero-accent {
+    color: #d8e85a;
+    position: relative;
+    white-space: nowrap;
+}
+
+.hero-content p {
+    font-size: 1.35rem;
+    line-height: 1.55;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0.96;
+}
+
+/* CTA del hero: acción protagonista, acorde al titular grande
+   (aplica a ambas variantes de botón usadas en los slides) */
+.slider-container .cta-button,
+.slider-container .btn {
+    padding: 19px 50px;
+    font-size: 1.15rem;
+    letter-spacing: 0.6px;
+}
+
+/* (Cue de scroll eliminado a pedido del cliente) */
+
+/* Punto activo del carrusel: blanco sólido (alto contraste, sin amarillo) */
+.dot.active {
+    background: #ffffff;
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* --- Hero MÓVIL: imagen de fondo con overlay verde de marca --- */
+.mobile-hero {
+    background:
+        linear-gradient(158deg, rgba(11, 38, 21, 0.88) 0%, rgba(18, 55, 30, 0.62) 52%, rgba(45, 90, 39, 0.72) 100%),
+        url('IMAGENES/slide1.webp');
+    background-size: cover;
+    background-position: center;
+    border-bottom: none;
+    padding-top: 54px;
+    padding-bottom: 56px;
+}
+
+.mhero-title {
+    font-size: 2.35rem;
+    line-height: 1.08;
+    color: #ffffff;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.4);
+}
+
+/* Acento del titular en lima (legible sobre el verde) */
+.mhero-accent {
+    color: #cfe85a;
+}
+
+.mhero-accent::after {
+    background: #cfe85a;
+}
+
+.mhero-sub {
+    color: rgba(255, 255, 255, 0.92);
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35);
+}
+
+/* Buscador: se eleva de la foto con sombra y borde claro */
+.mhero-search {
+    background: rgba(255, 255, 255, 0.96);
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+}
+
+/* =====================================================
+   COHESIÓN MÓVIL ↔ ESCRITORIO (revisión jun 2026) · solo presentación
+===================================================== */
+@media (max-width: 768px) {
+    /* Íconos de categoría: mismo aro verde que en escritorio
+       (antes eran íconos gigantes sin disco → se veía como otro diseño) */
+    .productos-container .pcat-icono {
+        width: 118px;
+        height: 118px;
+        max-width: 118px;
+        margin: 4px auto 16px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 50% 42%, #f2f8ea 0%, #e8f1de 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: visible;
+    }
+
+    .productos-container .pcat-icono img {
+        width: auto;
+        height: auto;
+        max-width: 64px;
+        max-height: 64px;
+        margin: 0 auto;
+    }
+}
+
+/* =====================================================
+   UNIFICACIÓN HERO + HEADER en MÓVIL (revisión jun 2026)
+   Objetivo: que móvil y escritorio se vean/sientan igual al aterrizar.
+   - Mismo carrusel (imágenes y texto rotando) en ambos
+   - Header blanco con logo a color (como escritorio)
+   - Sin palabra subrayada (usa el mismo <h1> del slider)
+===================================================== */
+@media (max-width: 768px) {
+    /* 1) Mostrar el carrusel en móvil y ocultar el hero estático */
+    .slider-container.desktop-only {
+        display: block !important;
+    }
+
+    .mobile-hero {
+        display: none !important;
+    }
+
+    /* Slider adaptado a pantalla de móvil */
+    .slider-container {
+        height: 82vh;
+        min-height: 470px;
+    }
+
+    .slider-container .hero-content {
+        padding: 24px;
+    }
+
+    .slider-container .hero-content h1,
+    .slider-container .hero-content h2 {
+        font-size: 2.4rem;
+        line-height: 1.12;
+        letter-spacing: -0.4px;
+    }
+
+    .slider-container .hero-content p {
+        font-size: 1.02rem;
+        max-width: 90%;
+    }
+
+    .slider-container .cta-button,
+    .slider-container .btn {
+        padding: 14px 32px;
+        font-size: 0.98rem;
+    }
+
+    /* 2) Header blanco + logo a color (igual que escritorio) */
+    .navbar,
+    .navbar-container {
+        background-color: #ffffff !important;
+        min-height: 70px !important;
+        height: 70px !important;
+    }
+
+    /* Mostrar el logo a color (centrado) y ocultar el isotipo blanco */
+    .logo.desktop-only {
+        display: flex !important;
+    }
+
+    .logo-isotipo.mobile-only {
+        display: none !important;
+    }
+
+    .logo img {
+        height: 40px !important;
+        width: auto !important;
+        transform: none !important;
+    }
+
+    /* Líneas de la hamburguesa oscuras sobre fondo blanco */
+    .hamburger span {
+        background-color: #1a4d2e !important;
+    }
+}
+
+/* =====================================================
+   HEADER LIMPIO Y REFINADO (revisión jun 2026) · solo presentación
+   Sólido, aireado, sin vidrio. Verde profundo arriba + barra blanca
+   con sombra suave; sin las líneas blancas duras entre items.
+===================================================== */
+
+/* Franja superior: verde profundo sólido, divisores fuera */
+.top-bar {
+    background: #1a4d2e !important;
+    border-bottom: none;
+    font-size: 12.5px;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
+
+.top-bar-item {
+    border-left: none;
+    padding: 9px 16px;
+}
+
+.top-bar-item:last-child {
+    border-right: none;
+}
+
+/* Hover en lima para enlaces y redes de la franja */
+.top-bar-item a:hover,
+.top-bar-item.social a:hover {
+    opacity: 1;
+    color: #cfe85a;
+}
+
+/* Barra del menú: blanca sólida, limpia, con sombra suave */
+.navbar {
+    background: #ffffff !important;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border-bottom: 1px solid #ecf0e8;
+    box-shadow: 0 4px 18px rgba(20, 60, 33, 0.07) !important;
+}
+
+.navbar-container {
+    background: transparent !important;
+}
+
+/* Franja superior CONDENSADA y visible en MÓVIL (teléfono + redes) */
+@media (max-width: 768px) {
+    .top-bar {
+        display: flex !important;
+        justify-content: center;
+        overflow-x: visible;
+        font-size: 12px;
+        padding: 2px 0;
+    }
+
+    .top-bar-item {
+        border-left: none;
+        padding: 7px 12px;
+    }
+
+    .top-bar-item:nth-child(2),   /* email */
+    .top-bar-item:nth-child(5),   /* Resoluciones */
+    .top-bar-item:nth-child(6),   /* Catálogo */
+    .top-bar-item:nth-child(7) {  /* Sap */
+        display: none !important;
+    }
+}
+
+/* =====================================================
+   MÓVIL MÁS COMPACTO (revisión jun 2026): menos scroll al aterrizar
+===================================================== */
+@media (max-width: 768px) {
+    /* Hero un poco menos alto */
+    .slider-container {
+        height: 70vh;
+        min-height: 430px;
+    }
+
+    /* Categorías: 3 columnas compactas (chips), fila de abajo centrada
+       (flex + justify-center heredados del contenedor base) */
+    .productos-container {
+        gap: 10px;
+        padding: 0 10px;
+    }
+
+    .productos-container .producto-card {
+        width: calc(33.333% - 8px);
+        padding: 14px 4px;
+    }
+
+    .productos-container .pcat-icono {
+        width: 58px;
+        height: 58px;
+        max-width: 58px;
+        margin: 0 auto 8px;
+    }
+
+    .productos-container .pcat-icono img {
+        max-width: 32px;
+        max-height: 32px;
+    }
+
+    /* Título del chip: ocupa todo el ancho y ajusta para no salirse del marco */
+    .productos-container .pcat-info {
+        width: 100%;
+    }
+
+    .productos-container .pcat-info h3 {
+        width: 100%;
+        font-size: 0.58rem;
+        letter-spacing: -0.2px;
+        line-height: 1.2;
+        overflow-wrap: normal;
+        word-break: keep-all;
+    }
+
+    /* Chips compactos: la descripción se oculta en móvil (sigue en escritorio y en Productos) */
+    .productos-container .pcat-info p {
+        display: none;
+    }
+
+    /* Menos aire vertical entre secciones */
+    .productos-seccion { padding: 40px 5%; }
+    .nosotros-seccion { padding: 48px 5%; }
+    .seccion-servicios { padding: 48px 18px; }
+}
+
+/* =====================================================
+   AJUSTES MÓVIL (revisión jun 2026): menú lateral, buscador productos
+===================================================== */
+@media (max-width: 768px) {
+    /* --- Menú lateral (hamburguesa): ítems limpios y alineados --- */
+    .nav-menu {
+        padding-left: 0 !important;
+        padding-top: 84px !important;
+    }
+
+    .nav-menu a {
+        padding: 16px 24px !important;
+        font-size: 1.05rem !important;
+        border-bottom: 1px solid #f0f2ee !important;
+        border-left: 3px solid transparent !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        transform: none !important;
+        text-shadow: none !important;
+        transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+
+    .nav-menu a.activo {
+        color: #2D5A27 !important;
+        font-weight: 700 !important;
+        border-left: 3px solid #7ab929 !important;
+        border-bottom: 1px solid #f0f2ee !important;
+        background: #f4f8f1 !important;
+        transform: none !important;
+        text-shadow: none !important;
+    }
+
+    .nav-menu a:hover:not(.activo) {
+        background: #f4f8f1 !important;
+        border-radius: 0 !important;
+        color: #2D5A27 !important;
+    }
+
+    /* Buscador dentro del menú: prolijo y a ancho completo */
+    .nav-menu .buscador-header {
+        margin: 20px 24px !important;
+        width: calc(100% - 48px) !important;
+    }
+
+    /* --- Buscador de la página de Productos: usar todo el ancho --- */
+    .banner-categoria .hero-content {
+        padding: 28px 16px !important;
+        max-width: 100% !important;
+    }
+
+    .banner-categoria .buscador-contenedor {
+        max-width: 100% !important;
+        width: 100%;
+    }
+
+    #input-buscador {
+        font-size: 0.95rem;
+        padding: 13px 40px 13px 16px;
+    }
+}
+
+/* --- Contacto: items centrados y apilados (ícono arriba), escritorio y móvil ---
+   Antes el ícono iba a la izquierda y al centrar quedaban dispersos. */
+.info-contacto {
+    text-align: center;
+}
+
+.info-contacto .dato {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 6px;
+}
+
+.info-contacto .dato > i {
+    margin-top: 0;
+    font-size: 24px;
+}
+
+.info-contacto {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 28px;
+}
+
+.info-contacto > p {
+    margin: 0 auto 10px;
+    max-width: 520px;
+}
+
+.info-contacto .dato {
+    margin: 0;
+}
+
+.info-contacto .dato p {
+    font-size: 1rem;
+    line-height: 1.45;
+}
+
+/* =====================================================
+   Franja superior: ocultar Resoluciones / Catálogo / Sap en TODO tamaño.
+   (Refuerzo por CSS para que desaparezcan aunque el header esté en caché.)
+   Los 4 restantes (teléfono, email, redes) quedan centrados.
+===================================================== */
+.top-bar-item:nth-child(5),
+.top-bar-item:nth-child(6),
+.top-bar-item:nth-child(7) {
+    display: none !important;
+}
+
+/* Home categorias: 4 tarjetas visibles en una sola fila en escritorio. */
+@media (min-width: 1025px) {
+    .productos-container--cuatro {
+        display: grid !important;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 24px !important;
+        max-width: 1680px !important;
+    }
+
+    .productos-container--cuatro .producto-card {
+        width: auto !important;
+        min-width: 0;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .productos-container--cuatro {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 24px !important;
+    }
+
+    .productos-container--cuatro .producto-card {
+        width: auto !important;
+    }
 }

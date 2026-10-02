@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fermagri | Nutrición Vegetal de Precisión</title>
+    <meta name="description"
+        content="Fermagri ofrece fertilizantes de alta concentración y calidad para maximizar el rendimiento de sus cultivos. Nutrición vegetal de precisión en Ecuador.">
+    <meta name="keywords"
+        content="fertilizantes, nutrición vegetal, agricultura, Ecuador, Fermagri, urea, potasio, nitrato, calcio, agrícola">
+    <meta property="og:title" content="Fermagri | Nutrición Vegetal de Precisión">
+    <meta property="og:description"
+        content="Fertilizantes de alta eficiencia para maximizar el rendimiento de tus cultivos. Explora nuestro catálogo y herramientas agronómicas.">
+    <meta property="og:image" content="https://fermagri.com/nosotros.jpg">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://fermagri.com/index.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Fermagri | Nutrición Vegetal de Precisión">
+    <meta name="twitter:description"
+        content="Fertilizantes de alta concentración y calidad para maximizar el rendimiento de tus cultivos en Ecuador.">
+    <meta name="twitter:image" content="https://fermagri.com/nosotros.jpg">
+    <link rel="canonical" href="https://fermagri.com/index.html">
+    <link rel="preload" as="image" href="IMAGENES/slide1.webp" fetchpriority="high">
+    <link rel="icon" type="image/svg+xml" href="Logofermagriindex.svg.svg">
+    <link rel="stylesheet" href="style.css?v=catalogo-4">
+    <link rel="stylesheet" href="chatbot.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Fermagri",
+      "url": "https://fermagri.com",
+      "logo": "https://fermagri.com/Logofermagriindex.svg.svg",
+      "description": "Nutrición vegetal de precisión: fertilizantes de alta concentración y calidad para maximizar el rendimiento de los cultivos en Ecuador.",
+      "email": "info@fermagri.ec",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "EC",
+        "addressLocality": "Guayaquil",
+        "streetAddress": "Vía a Daule km 15.5"
+      },
+      "sameAs": [
+        "https://www.facebook.com/pages/Fertilizantes-y-quimicos-Fermagri/762355317115945",
+        "https://www.instagram.com/fermagriecuador/"
+      ]
+    }
+    </script>
+</head>
+
+<body>
+
+    <div id="header-placeholder"></div>
+
+    <main>
+        <h1 class="sr-only">Fermagri — Soluciones agrícolas de alto rendimiento y nutrición vegetal de precisión</h1>
+        <!-- ========= HERO MÓVIL CLEAN (solo mobile) ========= -->
+        <section class="mobile-hero mobile-only">
+            <h2 class="mhero-title">
+                Soluciones <span class="mhero-accent">Agrícolas</span><br>de Alto Rendimiento
+            </h2>
+            <p class="mhero-sub">
+                Impulsando la productividad del campo ecuatoriano con fertilizantes de alta eficiencia.
+            </p>
+            <div class="mhero-search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="inputBuscadorCelular" placeholder="Buscar cultivo o producto..."
+                    onkeypress="window.ejecutarBusquedaHero(event)">
+            </div>
+            <div class="mhero-btns">
+                <button class="mhero-btn mhero-primary" onclick="window.ejecutarBusquedaHero()">
+                    <i class="fas fa-search"></i> BUSCAR →
+                </button>
+                <!-- <a href="calculadora.html" class="mhero-btn mhero-primary">
+                <i class="fas fa-leaf"></i> IR A CALCULADORA →
+            </a> -->
+            </div>
+        </section>
+
+        <!-- Slider solo visible en DESKTOP -->
+        <section class="slider-container desktop-only" id="inicio">
+            <div class="slider">
+                <div class="slide active">
+                    <div class="slide-bg"
+                        style="background-image: linear-gradient(118deg, rgba(11,38,21,0.88) 0%, rgba(18,55,30,0.58) 52%, rgba(45,90,39,0.66) 100%), url('IMAGENES/slide1.webp');">
+                    </div>
+                    <div class="hero-content">
+                        <h2>Soluciones Agrícolas de Alto Rendimiento</h2>
+                        <p>Impulsando la productividad del campo ecuatoriano.</p>
+                        <button class="cta-button"
+                            onclick="document.getElementById('productos').scrollIntoView({behavior: 'smooth'})">Ver
+                            Portafolio</button>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <div class="slide-bg"
+                        style="background-image: linear-gradient(118deg, rgba(11,38,21,0.88) 0%, rgba(18,55,30,0.58) 52%, rgba(45,90,39,0.66) 100%), url('IMAGENES/slide2.webp');">
+                    </div>
+                    <div class="hero-content">
+                        <h2>Fertilidad y Productividad</h2>
+                        <p>Fórmulas de alta eficiencia para nutrición vegetal.</p>
+                        <div class="hero-btns">
+                            <a href="productos.html" class="btn btn-primary">VER PRODUCTOS</a>
+                            <!-- <a href="distribuidores.html" class="btn btn-outline">DISTRIBUIDORES</a> -->
+                            <!-- <a href="calculadora.html" class="btn btn-nutri">CALCULADOR DE CULTIVO</a> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <div class="slide-bg"
+                        style="background-image: linear-gradient(118deg, rgba(11,38,21,0.88) 0%, rgba(18,55,30,0.58) 52%, rgba(45,90,39,0.66) 100%), url('IMAGENES/slide3.webp');">
+                    </div>
+                    <div class="hero-content">
+                        <h2>Línea Master Protec</h2>
+                        <p>Menos volatilización, más absorción, mejores cosechas.</p>
+                        <button class="cta-button">Conocer más</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Indicadores de navegación -->
+            <div class="slider-dots">
+                <span class="dot active" onclick="currentSlide(0)"></span>
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+            </div>
+        </section>
+
+        <!-- Sección de resultados de búsqueda (oculta por defecto) -->
+        <section id="sec-resultados-busqueda" class="productos-seccion"
+            style="display:none; padding-top: 0; padding-bottom: 50px;">
+            <div class="titulo-seccion">
+                <h2 id="titulo-busqueda">RESULTADOS DE BÚSQUEDA</h2>
+                <div class="linea-verde"></div>
+            </div>
+            <div id="contenedor-resultados-busqueda" class="productos-grid"
+                style="max-width: 1200px; margin: 0 auto; padding: 20px;">
+                <!-- Aquí se cargarán los productos dinámicamente -->
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button onclick="window.limpiarBusqueda()" class="btn-nutri"
+                    style="padding: 10px 25px; cursor: pointer; border-radius: 5px; font-weight: bold; border: none; background-color: #e74c3c; color: white;">
+                    <i class="fas fa-times"></i> LIMPIAR BÚSQUEDA
+                </button>
+            </div>
+        </section>
+
+        <!-- Bloque Unificado de Catálogo de Productos -->
+        <section id="productos" class="productos-seccion">
+            <div class="titulo-seccion">
+                <h2 id="titulo-tipeado" data-texto="NUESTROS PRODUCTOS" aria-label="NUESTROS PRODUCTOS"></h2>
+                <div class="linea-verde"></div>
+            </div>
+
+            <div class="productos-container productos-container--cuatro">
+                <a href="productos.html?cat=Edaficos" class="producto-card">
+                    <div class="pcat-icono">
+                        <img src="ICONOS/icono granular.webp" alt="Edáficos" loading="lazy">
+                    </div>
+                    <div class="pcat-info">
+                        <h3>EDÁFICOS</h3>
+                        <p>Fertilizantes de aplicación al suelo para nutrición de base.</p>
+                    </div>
+                    <i class="fas fa-chevron-right pcat-arrow"></i>
+                </a>
+
+                <a href="productos.html?cat=Mezclas%20F%C3%ADsicas" class="producto-card">
+                    <div class="pcat-icono">
+                        <img src="ICONOS/icono mezclas.webp" alt="Mezclas Físicas" loading="lazy">
+                    </div>
+                    <div class="pcat-info">
+                        <h3>MEZCLAS FÍSICAS</h3>
+                        <p>Formulaciones granuladas para nutrición balanceada por etapa y cultivo.</p>
+                    </div>
+                    <i class="fas fa-chevron-right pcat-arrow"></i>
+                </a>
+
+                <a href="productos.html?cat=Solubles" class="producto-card">
+                    <div class="pcat-icono">
+                        <img src="ICONOS/icono solubles.webp" alt="Solubles" loading="lazy">
+                    </div>
+                    <div class="pcat-info">
+                        <h3>SOLUBLES</h3>
+                        <p>Nutrición foliar y fertirrigación de alta concentración.</p>
+                    </div>
+                    <i class="fas fa-chevron-right pcat-arrow"></i>
+                </a>
+
+                <a href="productos.html?cat=Especializados" class="producto-card">
+                    <div class="pcat-icono">
+                        <img src="ICONOS/icono especializados.webp" alt="Especializados" loading="lazy">
+                    </div>
+                    <div class="pcat-info">
+                        <h3>ESPECIALIZADOS</h3>
+                        <p>Formulaciones técnicas para cultivos de alta exigencia.</p>
+                    </div>
+                    <i class="fas fa-chevron-right pcat-arrow"></i>
+                </a>
+
+            </div>
+        </section>
+
+        <!-- Sección Sobre Nosotros -->
+        <section id="nosotros" class="nosotros-seccion">
+            <div class="nosotros-container">
+                <div class="nosotros-texto">
+                    <h2 class="subtitulo">Sobre Fermagri</h2>
+                    <div class="linea-verde-izquierda"></div>
+                    <p>En <strong>Fermagri</strong>, nos dedicamos a transformar el campo ecuatoriano a través de la
+                        nutrición vegetal de precisión. Con años de experiencia en el mercado, ofrecemos soluciones
+                        tecnológicas que maximizan el rendimiento de los cultivos de exportación.</p>
+                    <p>Nuestra misión es proporcionar insumos de alta calidad y asesoría técnica especializada para
+                        asegurar
+                        una agricultura sostenible y rentable para nuestros productores.</p>
+
+                    <div class="nosotros-iconos">
+                        <div class="item-icono">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Calidad Garantizada</span>
+                        </div>
+                        <div class="item-icono">
+                            <i class="fas fa-leaf"></i>
+                            <span>Sostenibilidad</span>
+                        </div>
+                        <div class="item-icono">
+                            <i class="fas fa-microscope"></i>
+                            <span>Innovación</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nosotros-imagen">
+                    <img src="nosotros.jpg" alt="Equipo Fermagri en el campo" loading="lazy">
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Servicios -->
+        <section class="seccion-servicios">
+            <div class="container">
+                <h2 class="titulo-servicios">SERVICIOS</h2>
+                <div class="separador-verde"></div>
+
+                <div class="grid-servicios">
+                    <div class="servicio-card">
+                        <div class="servicio-icono">
+                            <i class="fas fa-microscope"></i>
+                        </div>
+                        <h3>ASESORÍA TÉCNICA</h3>
+                        <p>Acompañamiento especializado para optimizar el rendimiento de sus cultivos.</p>
+                    </div>
+
+                    <div class="servicio-card">
+                        <div class="servicio-icono">
+                            <i class="fas fa-truck-moving"></i>
+                        </div>
+                        <h3>LOGÍSTICA</h3>
+                        <p>Distribución eficiente y segura para que sus insumos lleguen a tiempo al campo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const titulo = document.getElementById('titulo-tipeado');
+
+            if (titulo) {
+                const textoAEscribir = titulo.getAttribute('data-texto');
+                // Texto base visible siempre (SEO + sin parpadeo si el JS no corre)
+                titulo.textContent = textoAEscribir;
+
+                function efectoEscritura() {
+                    let i = 0;
+                    titulo.textContent = '';
+
+                    function escribir() {
+                        if (i <= textoAEscribir.length) {
+                            titulo.textContent = textoAEscribir.substring(0, i);
+                            i++;
+                            setTimeout(escribir, 100);
+                        }
+                    }
+                    escribir();
+                }
+
+                // El observador dispara la animación una sola vez al entrar en vista
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            efectoEscritura();
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.5 });
+
+                observer.observe(titulo);
+            }
+        });
+    </script>
+
+    <!-- Los componentes se cargan automáticamente desde main.js -->
+    <script src="catalogo-utils.js"></script>
+    <script src="public-data.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="main.js"></script>
+    <script src="chatbot.js"></script>
+</body>
+
+</html>
